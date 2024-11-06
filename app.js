@@ -10,8 +10,9 @@ app.use(express.json());
 app.use('/products', productRoutes);
 app.use('/users', userRoutes);
 app.use(express.static('public'));
+
 app.get("/", (req, res) => {
-  res.send("Welcome to the homepage!");
+  res.send('<a href="/products">Go to Product Page</a>');
 });
 
 const PORT = process.env.PORT || 10000;
