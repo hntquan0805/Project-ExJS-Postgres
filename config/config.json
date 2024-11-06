@@ -1,9 +1,9 @@
 {
   "development": {
-    "username": "postgres",
-    "password": "_postgres",
-    "database": "_database",
-    "host": "127.0.0.1",
+    "username": "hntquan0805_user",
+    "password": "yNIATQ0eAcsWC7lcg8xMgdxlA6H5SQyI",
+    "database": "hntquan0805",
+    "host": "dpg-csldh2btq21c73eh2l50-a",
     "dialect": "postgres"
   }
 }
