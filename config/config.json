@@ -1,9 +1,9 @@
 {
   "development": {
-    "username": "hntquan0805_user",
-    "password": "yNIATQ0eAcsWC7lcg8xMgdxlA6H5SQyI",
-    "database": "hntquan0805",
-    "host": "dpg-csldh2btq21c73eh2l50-a",
+    "username": "new_user",
+    "password": "new_password",
+    "database": "new_database",
+    "host": "localhost",
     "dialect": "postgres"
   }
 }
