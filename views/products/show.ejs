@@ -1,4 +1,25 @@
-<h1><%= product.name %></h1>
+<!-- <h1><%= product.name %></h1>
 <p>Price: $<%= product.price %></p>
 <p>Description: <%= product.description %></p>
-<a href="/products">Back to Products</a>
+<a href="/products">Back to Products</a> -->
+<div class="container">
+    <div class="col-lg-12">
+        <div class="d-flex align-items-center">
+          <a href="/products/<%= product.id %>">
+            <img class="flex-shrink-0 img-fluid rounded" src="/img/menu-<%= product.id %>.jpg" alt="" style="width: 200px;">
+          </a>
+          <div class="w-100 d-flex flex-column text-start ps-4">
+            <h5 class="d-flex justify-content-between border-bottom pb-2 nunito-custom fw-bold text-">
+                <span><a href="/products/<%= product.id %>"><%= product.name %></a></span>
+                <span class="text-primary">$<%= product.price %></span>
+            </h5>
+            <div class="row g-3">
+              <small class="col-10 playwrite-gb-s-custom"><%= product.description %></small>
+            </div>
+          </div>
+          <button class="btn btn-primary m-2" onclick="addToCart()">
+            <img src="https://www.svgrepo.com/show/488039/add-to-cart.svg" width="32" height="32" />
+          </button>
+        </div>
+      </div>
+</div>

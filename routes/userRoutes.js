@@ -22,4 +22,6 @@ router.get('/signup', async (req, res) => {
     res.render('users/signup', {title : "Sign Up"})
 })
 
+router.post('/signup', userController.registerUser)
+
 module.exports = router;
