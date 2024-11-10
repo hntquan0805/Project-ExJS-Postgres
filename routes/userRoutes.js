@@ -9,10 +9,10 @@ const expressLayouts = require('express-ejs-layouts');
 
 router.use(expressLayouts);
 
-router.get('/', async (req, res) => {
-    const users = await userController.getAllUsers(req, res);
-    res.render('users/index', { title : "Users", users : users });
-});
+// router.get('/', async (req, res) => {
+//     const users = await userController.getAllUsers(req, res);
+//     res.render('users/index', { title : "Users", users : users });
+// });
 
 router.get('/signin', async (req, res) => {
     res.render('users/signin', {title : "Sign In"})
