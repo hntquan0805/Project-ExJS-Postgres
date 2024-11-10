@@ -25,3 +25,4 @@ router.get('/signup', async (req, res) => {
 router.post('/signup', userController.registerUser)
 
 module.exports = router;
+

@@ -2,7 +2,7 @@
 <p>Price: $<%= product.price %></p>
 <p>Description: <%= product.description %></p>
 <a href="/products">Back to Products</a> -->
-<div class="container">
+<!-- <div class="container">
     <div class="col-lg-12">
         <div class="d-flex align-items-center">
           <a href="/products/<%= product.id %>">
@@ -22,4 +22,35 @@
           </button>
         </div>
       </div>
+</div> -->
+<div class="container my-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+      <div class="card border-0 shadow-sm p-3">
+        <div class="d-flex align-items-center">
+          <!-- Image Section -->
+          <a href="/products/<%= product.id %>">
+            <img
+              class="img-fluid rounded"
+              src="/img/menu-<%= product.id %>.jpg"
+              alt="<%= product.name %>"
+              style="width: 150px; height: 150px; object-fit: cover;"
+            />
+          </a>
+          <!-- Product Details Section -->
+          <div class="ms-4 w-100">
+            <h5 class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-2 fw-bold">
+              <a class="text-dark text-decoration-none" href="/products/<%= product.id %>"><%= product.name %></a>
+              <span class="text-success">$<%= product.price %></span>
+            </h5>
+            <p class="text-muted mb-2" style="font-size: 0.9rem;">Description: <%= product.description %></p>
+            <button class="btn btn-outline-primary btn-sm mt-2" onclick="addToCart()">
+              <img src="https://www.svgrepo.com/show/488039/add-to-cart.svg" width="20" height="20" class="me-2" />
+              Add to Cart
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
