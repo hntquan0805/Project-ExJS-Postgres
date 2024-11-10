@@ -1,16 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Registration Successful</title>
-</head>
-<body>
-  <h1>Registration Successful</h1>
-  <p>Welcome, <%= user.name %>! Your registration was successful. Please log in to place orders and enjoy our store's services. We look forward to serving you!</p>
-  <!-- <a href="/users/signin">
-    <button style="padding: 10px 20px; font-size: 16px; background-color: #FEAF39; color: white; border: none; border-radius: 5px; cursor: pointer;">
-      Sign In
-    </button> -->
-  </a>
-</body>
-</html>
+<div class="container">
+  <h1 class="card-title text-center text-success">Registered successfully!</h1>
+
+  <p>Welcome, <b>
+      <%= user.name %>
+    </b>!</p>
+  <p>Your registration was successful. </p>
+  <p>Please <a href="users/signin">log in</a> to place orders and enjoy our store's services!</p>
+</div>

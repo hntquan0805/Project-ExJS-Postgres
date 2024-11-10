@@ -10,7 +10,9 @@ router.get('/', async (req, res) => {
 });
 router.get('/:id', async (req, res) => {
     const product = await productController.getProductById(req, res);
-    res.render('products/show', { title: product.name, product: product });
+    // Dummy recommendations
+    const otherFood = await productController.getAllProducts(req, res);
+    res.render('products/show', { title: product.name, product: product, layout : 'layouts/layout', otherFood : otherFood});
 });
 
 module.exports = router;

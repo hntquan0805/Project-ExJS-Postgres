@@ -23,7 +23,7 @@ exports.registerUser = async (req, res) => {
     }
 
     const newUser = await User.create({ name, email, password });
-    res.render('users/success', { title: "Sign Up Success", user: newUser });
+    res.render('users/success', { title: "Sign Up Success", user: newUser , layout : 'layouts/layout'});
   } catch (error) {
     console.error('Error registering user:', error);
     res.status(500).render('users/signup', {

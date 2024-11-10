@@ -4,13 +4,13 @@
         <div class="col-md-6 text-white d-flex p-5" style="background-image: linear-gradient(rgba(20, 20, 20, 0.8), rgba(20, 20, 20, 1.0)), url(img/about-3.jpg); background-size: cover; background-position: center;">
             <div>
                 <h5 class="section-title ff-secondary text-start text-primary fw-normal">Account</h5>
-                <h1 class="mb-4 text-white">Create Your Account</h1>
+                <h1 class="mb-4 text-white" id="create-your-account">Create Your Account</h1>
                 <p class="lead">Join the Virgo Family!</p>
                 <p class="lead">And enjoy <em>personalized features</em></p>
             </div>
         </div>
 
-        <% if (errors && errors.general) { %>
+        <% if (typeof errors != "undefined" && errors && errors.general) { %>
             <div class="alert alert-danger"><%= errors.general %></div>
         <% } %>
 
@@ -21,29 +21,29 @@
                         <div class="row g-0">
                             <div class="col-12 mb-3">
                                 <label for="name" class="form-label">Username</label>
-                                <input type="text" class="form-control" id="name" name="name" value="<%= values && values.name ? values.name : '' %>" required>
-                                <% if (errors && errors.name) { %>
+                                <input type="text" class="form-control" id="name" name="name" value="<%= typeof values != "undefined" && values && values.name ? values.name : '' %>" required>
+                                <% if (typeof errors != "undefined" && errors && errors.name) { %>
                                     <div class="text-danger"><%= errors.name %></div>
                                 <% } %>
                             </div>
                             <div class="col-12 mb-3">
                                 <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="email" name="email" value="<%= values && values.email ? values.email : '' %>" required>
-                                <% if (errors && errors.email) { %>
+                                <input type="email" class="form-control" id="email" name="email" value="<%= typeof values != "undefined" && values && values.email ? values.email : '' %>" required>
+                                <% if (typeof errors != "undefined" && errors && errors.email) { %>
                                     <div class="text-danger"><%= errors.email %></div>
                                 <% } %>
                             </div>
                             <div class="col-12 mb-3">
                                 <label for="password" class="form-label">Password</label>
                                 <input type="password" class="form-control" id="password" name="password" required minlength="6">
-                                <% if (errors && errors.password) { %>
+                                <% if (typeof errors != "undefined" && errors && errors.password) { %>
                                     <div class="text-danger"><%= errors.password %></div>
                                 <% } %>
                             </div>
                             <div class="col-12 mb-3">
                                 <label for="confirm-password" class="form-label">Confirm Password</label>
                                 <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
-                                <% if (errors && errors.confirmPassword) { %>
+                                <% if (typeof errors != "undefined" && errors && errors.confirmPassword) { %>
                                     <div class="text-danger"><%= errors.confirmPassword %></div>
                                 <% } %>
                             </div>
