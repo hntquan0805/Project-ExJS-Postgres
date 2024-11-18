@@ -12,6 +12,7 @@ const serviceRoutes = require('./routes/serviceRoutes');
 const bookingRoutes = require('./routes/bookingRoutes');
 const expressLayouts = require('express-ejs-layouts');
 
+
 const app = express();
 app.set(expressLayouts);
 app.set('layout', './layouts/page_layout'); // Default layout
