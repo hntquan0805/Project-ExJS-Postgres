@@ -1,18 +1,8 @@
-// {
-//   "development": {
-//     "username": "user01",
-//     "password": "pass01",
-//     "database": "data01",
-//     "host": "localhost",
-//     "dialect": "postgres"
-//   }
-// }
-
 {
   "development": {
-    "username": "postgres",
-    "password": "1234567890",
-    "database": "Hello",
+    "username": "user01",
+    "password": "pass01",
+    "database": "data01",
     "host": "localhost",
     "dialect": "postgres"
   }
