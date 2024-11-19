@@ -1,3 +1,30 @@
+<!--Form Filter Begin-->
+<form method="GET" action="/products" class="container mb-5">
+  <div class="row g-3 align-items-center">
+    <!-- Search Field -->
+    <div class="col-md-3">
+      <input type="text" name="search" class="form-control" placeholder="Search by name..."/>
+    </div>
+    <!-- Description Field -->
+    <div class="col-md-3">
+      <input type="text" name="description" class="form-control" placeholder="Search by description..."/>
+    </div>
+    <!-- Min Price Field -->
+    <div class="col-md-2">
+      <input type="number" name="minPrice" class="form-control" placeholder="Min Price"/>
+    </div>
+    <!-- Max Price Field -->
+    <div class="col-md-2">
+      <input type="number" name="maxPrice" class="form-control" placeholder="Max Price"/>
+    </div>
+    <!-- Submit Button -->
+    <div class="col-md-2">
+      <button type="submit" class="btn btn-primary w-100">Filter</button>
+    </div>
+  </div>
+</form>
+<!--Form Filter End-->
+
 <!-- List Begin -->
 <div class="container">
   <div class="row g-4">

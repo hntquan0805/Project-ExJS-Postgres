@@ -5,7 +5,7 @@ const productController = require('../controllers/productController');
 
 router.use(expressLayouts);
 router.get('/', async (req, res) => {
-    const products = await productController.getAllProducts(req, res);
+    const products = await productController.getProducts(req, res);
     res.render('products/index', { title: 'Menu', products: products });
 });
 router.get('/:id', async (req, res) => {
