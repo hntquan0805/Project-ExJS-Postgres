@@ -38,16 +38,28 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
     const product = await productController.getProductById(req, res);
     // Dummy recommendations
-    const maxRecommendations = 16;
+    const maxRecommendations = 10;
+
     const queryData = {
         pagination: {
             currentPage: 1,
             pageSize: maxRecommendations,
             totalPages: 0
+        },
+        filter: {
+            excludeId: product.id,
+            category: product.category,
         }
-    }
+    };
+    queryData.filter.excludeId = product.id;
+
     const recommendations = (await productController.getProducts(req, res, queryData)).rows;
-    res.render('products/show', { title: product.name, product: product, layout : 'layouts/layout', recommendations : recommendations});
+    res.render('products/show', { 
+        title: product.name, 
+        product: product, 
+        layout : 'layouts/layout', 
+        recommendations : recommendations
+    });
 });
 
 module.exports = router;

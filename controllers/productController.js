@@ -16,8 +16,6 @@ exports.getCategories = async (req, res) => {
 exports.getProducts = (req, res, queryData) => {
   const { pagination, filter } = queryData;
 
-  console.log(queryData);
-
   const dbFilter = {}
   // Pagination
   if (pagination){
@@ -41,10 +39,21 @@ exports.getProducts = (req, res, queryData) => {
     if (filter.maxPrice && filter.maxPrice >= 0) {
       dbFilter.where.price = { ...dbFilter.where.price, [Op.lte]: filter.maxPrice};
     }
-    if (filter.category && filter.category.length > 0) {
-      // E.g: breakfast,lunch,dinner,gluten_free
-      const c = filter.category.split(',');
-      dbFilter.where.category = { [Op.contains]: Sequelize.literal(`ARRAY['${c.join("','")}']::varchar[]`) };
+    if (filter.category) {
+      const categories = Array.isArray(filter.category) 
+        ? filter.category 
+        : (typeof filter.category === 'string' 
+          ? filter.category.split(',').map(cat => cat.trim()) 
+          : []);
+      
+      if (categories.length > 0) {
+        dbFilter.where.category = { 
+          [Op.overlap]: Sequelize.literal(`ARRAY['${categories.join("','")}']::varchar[]`) 
+        };
+      }
+    }
+    if (filter.excludeId) {
+      dbFilter.where.id = { [Op.ne]: filter.excludeId };  // Exclude the current product
     }
   }
 
