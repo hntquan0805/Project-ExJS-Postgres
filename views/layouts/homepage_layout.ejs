@@ -37,38 +37,83 @@
 <body>
     <div class="container-xxl bg-white p-0">
         <!-- Spinner Start -->
-        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-                <span class="sr-only">Loading...</span>
-            </div>
+    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
         </div>
-        <!-- Spinner End -->
+    </div>
+    <!-- Spinner End -->
 
-        <!-- Navbar & Hero Start -->
-        <div class="container-xxl position-relative p-0">
-            <%- include('../partials/navbar'); %>
+    <!-- Navbar & Hero Start -->
+    <div class="container-xxl position-relative p-0">
+        <%- include('../partials/navbar'); %>
 
-            <!--Hero Start-->
-            <div class="container-xxl py-5 bg-dark hero-header mb-5">
-                <div class="container my-5 py-5">
-                    <div class="row align-items-center g-5">
-                        <div class="col-lg-6 text-center text-lg-start">
-                            <h1 class="display-3 text-white animated slideInLeft">Enjoy Our<br> <span
-                                    class="text-primary ff-secondary">Perfect</span> Meal</h1>
-                            <p class="text-white animated slideInLeft mb-4 pb-2">At Virgo, every dish is crafted with
-                                precision and passion. <br /> Experience dining that's truly a cut above.</p>
-                            <a href="booking"
-                                class="btn btn-primary py-sm-3 px-sm-5 me-3 animated slideInLeft">Book A Table</a>
-                        </div>
-                        <div class="col-lg-6 text-center text-lg-end overflow-hidden">
-                            <img class="img-fluid" src="img/hero.png" alt="">
-                        </div>
+        <!-- Hero Start -->
+        <div class="container-xxl py-5 bg-dark hero-header mb-5">
+            <div class="container my-5 py-5">
+                <div class="row align-items-center g-5">
+                    <div class="col-lg-6 text-center text-lg-start">
+                        <h1 class="display-3 text-white animated slideInLeft">Enjoy Our<br> <span class="text-primary ff-secondary">Perfect</span> Meal</h1>
+                        <p class="text-white animated slideInLeft mb-4 pb-2">At Virgo, every dish is crafted with precision and passion. <br /> Experience dining that's truly a cut above.</p>
+                        <a href="booking" class="btn btn-primary py-sm-3 px-sm-5 me-3 animated slideInLeft">Book A Table</a>
+                    </div>
+                    <div class="col-lg-6 text-center text-lg-end overflow-hidden">
+                        <img class="img-fluid" src="img/hero.png" alt="">
                     </div>
                 </div>
             </div>
-            <!--Hero End-->
         </div>
-        <!-- Navbar & Hero End -->
+        <!-- Hero End -->
+    </div>
+    <!-- Navbar & Hero End -->
+
+    <!-- Promotions Carousel Start -->
+    <div class="container-xxl bg-light text-center py-5">
+        <h2 class="section-title ff-secondary text-center text-primary fw-normal">Special Promotions</h2>
+        <div id="promotionsCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="promotion-item bg-white text-center p-4">
+                        <div class="promotion-img-wrapper">
+                            <img class="promotion-img" src="img/promotion1.jpg" alt="Promotion 1">
+                        </div>
+                        <h4 class="mt-4">Special 20% Off on All Desserts!</h4>
+                        <p>Indulge in our delicious desserts with a 20% discount. Limited time offer!</p>
+                        <a href="booking" class="btn btn-primary py-sm-3 px-sm-5 me-3 animated slideInLeft">Book A Table</a>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="promotion-item bg-white text-center p-4">
+                        <div class="promotion-img-wrapper">
+                            <img class="promotion-img" src="img/promotion2.png" alt="Promotion 2">
+                        </div>
+                        <h4 class="mt-4">Free Drink with Every Main Course</h4>
+                        <p>Order any main course and get a free drink of your choice!</p>
+                        <a href="booking" class="btn btn-primary py-sm-3 px-sm-5 me-3 animated slideInLeft">Book A Table</a>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="promotion-item bg-white text-center p-4">
+                        <div class="promotion-img-wrapper">
+                            <img class="promotion-img" src="img/promotion3.jpg" alt="Promotion 3">
+                        </div>
+                        <h4 class="mt-4">Buy 1 Get 1 Free on Selected Appetizers</h4>
+                        <p>Enjoy a 1+1 offer on selected appetizers. Hurry, offer ends soon!</p>
+                        <a href="booking" class="btn btn-primary py-sm-3 px-sm-5 me-3 animated slideInLeft">Book A Table</a>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev custom-control" type="button" data-bs-target="#promotionsCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next custom-control" type="button" data-bs-target="#promotionsCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+    <!-- Promotions Carousel End -->
 
         <%- body %>
         <%- include('../partials/footer'); %>
