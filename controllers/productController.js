@@ -16,6 +16,8 @@ exports.getCategories = async (req, res) => {
 exports.getProducts = (req, res, queryData) => {
   const { pagination, filter } = queryData;
 
+  console.log(queryData);
+
   const dbFilter = {}
   // Pagination
   if (pagination){
