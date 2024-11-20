@@ -17,7 +17,8 @@ router.get('/', async (req, res) => {
             maxPrice: req.query.maxPrice ? parseFloat(req.query.maxPrice) : -1,
             description: req.query.description ? req.query.description : "",
             name: req.query.name ? req.query.name : "",
-            category: req.query.category ? req.query.category : ""
+            category: req.query.category ? req.query.category : "",
+            category_op: req.query.category_op ? req.query.category_op : "contains"
         }
     };
     // Preprocess the query data
@@ -49,6 +50,7 @@ router.get('/:id', async (req, res) => {
         filter: {
             excludeId: product.id,
             category: product.category,
+            category_op: "overlap"
         }
     };
     queryData.filter.excludeId = product.id;

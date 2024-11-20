@@ -40,15 +40,24 @@ exports.getProducts = (req, res, queryData) => {
       dbFilter.where.price = { ...dbFilter.where.price, [Op.lte]: filter.maxPrice};
     }
     if (filter.category) {
+      // Whether an array or a string of categories joined by commas, convert to an array of categories
       const categories = Array.isArray(filter.category) 
         ? filter.category 
         : (typeof filter.category === 'string' 
           ? filter.category.split(',').map(cat => cat.trim()) 
           : []);
-      
+      let op = Op.contains; // Default operator
+      if (filter.category_op){
+        if (filter.category_op == 'contains'){
+          op = Op.contains;
+        } else if (filter.category_op == 'overlap'){
+          op = Op.overlap;
+        }
+      }
+        
       if (categories.length > 0) {
         dbFilter.where.category = { 
-          [Op.overlap]: Sequelize.literal(`ARRAY['${categories.join("','")}']::varchar[]`) 
+          [op]: Sequelize.literal(`ARRAY['${categories.join("','")}']::varchar[]`) 
         };
       }
     }
