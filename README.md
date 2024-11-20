@@ -24,7 +24,7 @@ npx sequelize db:migrate:undo
 4. You your database already have data and you want to use data from `seeders` folder instead, you need to clean your tables. In PostgreS:
 ```
 psql -U postgres
-\c data_01 postgres
+\c data01 postgres
 TRUNCATE TABLE table_name RESTART IDENTITY CASCADE;
 ```
 With `table_name` is the name of the table you want to clean, e.g `users`, `products`, etc.  

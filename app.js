@@ -11,9 +11,27 @@ const contactRoutes = require('./routes/contactRoutes');
 const serviceRoutes = require('./routes/serviceRoutes');
 const bookingRoutes = require('./routes/bookingRoutes');
 const expressLayouts = require('express-ejs-layouts');
-
+const passport = require('passport');
+const session = require('express-session');
 
 const app = express();
+
+// Passport Config
+require('./config/passport')(passport);
+
+// Express session
+app.use(
+  session({
+    secret: 'secret',
+    resave: true,
+    saveUninitialized: true
+  })
+);
+
+// Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.set(expressLayouts);
 app.set('layout', './layouts/page_layout'); // Default layout
 app.set('view engine', 'ejs');

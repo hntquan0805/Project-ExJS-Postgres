@@ -1,4 +1,6 @@
 const { User } = require('../models');
+const bcrypt = require('bcryptjs');
+const passport = require('passport');
 
 exports.registerUser = async (req, res) => {
   const formDataObject = req.body;
@@ -43,12 +45,27 @@ exports.registerUser = async (req, res) => {
     return res.status(400).json(err); // Use return here
   }
 
-  // Create the new user
-  const userObject = { name: formDataObject.name, email: formDataObject.email, password: formDataObject.password };
-  const newUser = await User.create(userObject);
+  try {
+    const existingUser = await User.findOne({ where: { email: formDataObject.email } });
+    if (existingUser) {
+      err.email = "Email is already in use";
+      return res.status(400).json(err);
+    }
 
-  // Send the success page as a response
-  res.status(200).render('users/success', { title: "Sign Up Success", user: newUser, layout: 'layouts/layout' });
+    // Hash the password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(formDataObject.password, salt);
+
+    // Create the new user with the hashed password
+    const userObject = { name: formDataObject.name, email: formDataObject.email, password: hashedPassword };
+    const newUser = await User.create(userObject);
+
+    // Send the success page as a response
+    return res.status(200).render('users/success', { title: "Sign Up Success", user: newUser, layout: 'layouts/layout' });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).send('Server Error');
+  }
 }
 
   // console.log(req.body);
