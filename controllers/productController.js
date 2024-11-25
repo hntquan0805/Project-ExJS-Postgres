@@ -1,113 +1,62 @@
-const { raw } = require('express');
-const { product } = require('../models');
-const { Op, ARRAY, Sequelize } = require('sequelize');
+const productService = require('../services/productService');
+const querystring = require('querystring');
 
-exports.getCategories = async (req, res) => {
-  // Category attribute is an array of categories
-  const products = await product.findAll({
-    attributes: ['category'],
-    raw: true
-  });
-  const categories = [...new Set(products.map(product => product.category).flat())];
-  return categories;
-};
-
-// Merging both pagination and filter functionality
-exports.getProducts = (req, res, queryData) => {
-  const { pagination, filter } = queryData;
-
-  const dbFilter = {}
-  // Pagination
-  if (pagination){
-    if (pagination.currentPage && pagination.pageSize) {
-      dbFilter.offset = (pagination.currentPage - 1) * pagination.pageSize;
-      dbFilter.limit = pagination.pageSize;
-    }
-  }
-  // Search and dbFilter
-  if (filter){
-    dbFilter.where = {};
-    if (filter.name && filter.name.length > 0) {
-      dbFilter.where.name = { [Op.iLike]: `%${filter.name}%` };
-    }
-    if (filter.description && filter.description.length > 0) {
-      dbFilter.where.description = { [Op.iLike]: `%${filter.description}%` };
-    }
-    if (filter.minPrice && filter.minPrice >= 0) {
-      dbFilter.where.price = { ...dbFilter.where.price, [Op.gte]: filter.minPrice};
-    }
-    if (filter.maxPrice && filter.maxPrice >= 0) {
-      dbFilter.where.price = { ...dbFilter.where.price, [Op.lte]: filter.maxPrice};
-    }
-    if (filter.category) {
-      // Whether an array or a string of categories joined by commas, convert to an array of categories
-      const categories = Array.isArray(filter.category) 
-        ? filter.category 
-        : (typeof filter.category === 'string' 
-          ? filter.category.split(',').map(cat => cat.trim()) 
-          : []);
-      let op = Op.contains; // Default operator
-      if (filter.category_op){
-        if (filter.category_op == 'contains'){
-          op = Op.contains;
-        } else if (filter.category_op == 'overlap'){
-          op = Op.overlap;
-        }
+exports.getProducts = async (req, res) => {
+  const queryData = {
+      pagination: {
+          currentPage: req.query.page ? parseInt(req.query.page) : 1,
+          pageSize: req.query.pageSize ? parseInt(req.query.pageSize) : 16,
+          totalPages: 0
+      },
+      filter: {
+          minPrice: req.query.minPrice ? parseFloat(req.query.minPrice) : -1,
+          maxPrice: req.query.maxPrice ? parseFloat(req.query.maxPrice) : -1,
+          description: req.query.description ? req.query.description : "",
+          name: req.query.name ? req.query.name : "",
+          category: req.query.category ? req.query.category : "",
+          category_op: req.query.category_op ? req.query.category_op : "contains"
       }
-        
-      if (categories.length > 0) {
-        dbFilter.where.category = { 
-          [op]: Sequelize.literal(`ARRAY['${categories.join("','")}']::varchar[]`) 
-        };
-      }
-    }
-    if (filter.excludeId) {
-      dbFilter.where.id = { [Op.ne]: filter.excludeId };  // Exclude the current product
-    }
+  };
+  // Preprocess the query data
+  // Swap minPrice and maxPrice if minPrice > maxPrice
+  if (queryData.filter.minPrice >= 0 && queryData.filter.maxPrice >= 0 && queryData.filter.minPrice > queryData.filter.maxPrice) {
+      const temp = queryData.filter.minPrice;
+      queryData.filter.minPrice = queryData.filter.maxPrice;
+      queryData.filter.maxPrice = temp;
   }
-
-  return product.findAndCountAll(dbFilter);
+  const resultProducts = await productService.getProductsByQuery(queryData);
+  queryData.pagination.totalPages = Math.ceil(resultProducts.count / queryData.pagination.pageSize);
+  const products = resultProducts.rows;
+  const filterQueryString = querystring.stringify(queryData.filter);
+  
+  const categories = await productService.getCategories();
+  res.render('products/index', { title: 'Products', products : products, queryData: queryData, filterQueryString : filterQueryString, categories : categories});
 }
 
-// exports.getProducts_ = (req, res) => {
-//   const { search, description, minPrice, maxPrice } = req.query;
+exports.getProduct = async (req, res) => {
+  const product = await productService.getProductById(req.params.id);
+  // Dummy recommendations
+  const maxRecommendations = 10;
 
-//   const filter = {
-//     where: {},
-//   };
+  const queryData = {
+      pagination: {
+          currentPage: 1,
+          pageSize: maxRecommendations,
+          totalPages: 0
+      },
+      filter: {
+          excludeId: product.id,
+          category: product.category,
+          category_op: "overlap"
+      }
+  };
+  queryData.filter.excludeId = product.id;
 
-//   if (search) {
-//     filter.where.name = { [Op.iLike]: `%${search}%` };
-//   }
-
-//   if (description) {
-//     filter.where.description = { [Op.iLike]: `%${description}%` };
-//   }
-
-//   if (minPrice) {
-//     filter.where.price = { ...filter.where.price, [Op.gte]: minPrice };
-//   }
-
-//   if (maxPrice) {
-//     filter.where.price = { ...filter.where.price, [Op.lte]: maxPrice };
-//   }
-
-//   return product.findAll(filter);
-// };
-
-exports.getAllProducts = (req, res) => {
-  return  product.findAll(); // Fetch all products from the database
-};
-
-exports.getProductById = (req, res) => {
-  return product.findByPk(req.params.id); // Use Product (uppercase) here
-};
-
-// exports.getProductsByPage = (page, pageSize) => {
-//   const offset = (page - 1) * pageSize; // Calculate the offset based on the page number and limit
-
-//   return product.findAndCountAll({
-//     limit : pageSize,
-//     offset : offset,
-//   }); // Fetch products with pagination from the database
-// };
+  const recommendations = (await productService.getProductsByQuery(queryData)).rows;
+  res.render('products/show', { 
+      title: product.name, 
+      product: product, 
+      layout : 'layouts/layout', 
+      recommendations : recommendations
+  });
+}

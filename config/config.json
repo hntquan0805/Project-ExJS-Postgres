@@ -5,5 +5,12 @@
     "database": "data01",
     "host": "localhost",
     "dialect": "postgres"
+  },
+  "production": {
+    "username": "hntquan0805_user",
+    "password": "yNIATQ0eAcsWC7lcg8xMgdxlA6H5SQyI",
+    "database": "hntquan0805",
+    "host": "dpg-csldh2btq21c73eh2l50-a.singapore-postgres.render.com",
+    "dialect": "postgres"
   }
 }   

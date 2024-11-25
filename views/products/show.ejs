@@ -19,9 +19,11 @@
               <span class="text-primary">$<%= product.price %></span>
             </h5>
             <p class="text-muted mb-2" style="font-size: 0.9rem;">Description: <%= product.description %></p>
-            <button class="btn btn-outline-primary btn-sm mt-2" onclick="addToCart()">
-              <img src="/img/add_to_cart.png" width="20" height="20" class="me-2" />
-              Add to Cart
+            <button class="btn btn-outline-primary"onclick="addToCart()">
+              <svg class="cart" width="22px" height="22px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M6.29977 5H21L19 12H7.37671M20 16H8L6 3H3M9 20C9 20.5523 8.55228 21 8 21C7.44772 21 7 20.5523 7 20C7 19.4477 7.44772 19 8 19C8.55228 19 9 19.4477 9 20ZM20 20C20 20.5523 19.5523 21 19 21C18.4477 21 18 20.5523 18 20C18 19.4477 18.4477 19 19 19C19.5523 19 20 19.4477 20 20Z" stroke="#fea116" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+              <span class="align-text-top">
+                Add to cart
+              </span>
             </button>
           </div>
         </div>
@@ -30,26 +32,6 @@
   <!-- Recommendation Section -->
   <div class="row g-3 wow fadeInUp">
     <h4>People also like...</h4>
-    <% recommendations.forEach(product => { %>
-      <div class="col-lg-6">
-        <div class="d-flex align-items-center me-4">
-          <a href="/products/<%= product.id %>">
-            <img class="flex-shrink-0 img-fluid rounded" src="/img/food/menu-<%= product.id % 8 + 1 %>.jpg" alt="" style="width: 90px;">
-          </a>
-          <div class="w-100 d-flex flex-column text-start ps-2">
-            <h5 class="d-flex justify-content-between border-bottom nunito-custom fw-bold">
-                <span><a href="/products/<%= product.id %>"><%= product.name %></a></span>
-                <span class="text-primary">$<%= product.price %></span>
-            </h5>
-            <div class="row g-3">
-              <small class="col-10 playwrite-gb-s-custom"><%= product.description %></small>
-              <button class="btn btn-primary col-2 pb-1 pt-0" onclick="addToCart()">
-                <img src="/img/add_to_cart.png" width="20" height="20" />
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    <% }); %>
+    <%- include('food_list.ejs', {products:recommendations}) %>
   </div>
 </div>

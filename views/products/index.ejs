@@ -1,45 +1,53 @@
 
 <div class="container-xxl py-5">
   <!-- Title -->
-  <div class="text-center wow fadeInUp data-wow-delay="0.1s">
+  <div class="text-center wow fadeInUp data-wow-delay=0.1s">
     <h5 class="section-title ff-secondary text-center text-primary fw-normal">Food Menu</h5>
     <h1 class="mb-5">Choose your favourite food</h1>
   </div>
   <!--Form Filter Begin-->
   <div class="container mb-5">
-    <button class="btn btn-outline-dark mb-2" type="button" data-bs-toggle="collapse" data-bs-target="#filterPanel" aria-expanded="false" aria-controls="filterDropdown">
-      <img src="/img/filter.png" width="32" height="32">
-      <span class="ps-1">
-        See only what you need
-      </span>
-    </button>
-    <div class="<%=  'collapse'  %> shadow-sm bg-dark text-white-50 rounded-1" id="filterPanel">
-      <form onsubmit="onSearchSubmits(event)" class="container mb-5 p-4">
-        <div class="row g-3 align-items-center">
-          <!-- Search Field -->
-          <div class="col-md-6">
-            <label for="nameSearch" class="form-label lead">Product Name</label>
+    <form onsubmit="onSearchSubmits(event)">
+      <div class="mb-2 row">
+        <div class="col-md-10">
+          <div class="input-group">
             <input type="text" id="nameSearch" name="name" class="form-control" placeholder="Search by name..." value="<%= queryData.filter.name %>"/>
+            <button type="submit" class="btn btn-outline-primary">
+              <%- include('../partials/search_icon') -%>
+              Search
+            </button>
           </div>
+        </div>
+        <div class="col-md-2">
+          <button class="btn btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#filterPanel" aria-expanded="false" aria-controls="filterDropdown">
+            <%- include('../partials/filter_icon') -%>
+            Options
+          </button>
+        </div>
+      </div>
+      
+      <div class="collapse card p-4 mb-4" id="filterPanel" style="transition: all 0.3s ease;">
+        <div class="row">
           <!-- Description Field -->
           <div class="col-md-6">
             <label for="descSearch" class="form-label lead">Description</label>
             <input type="text" id="descSearch" name="description" class="form-control" placeholder="Search by description..." value="<%= queryData.filter.description %>"/>
           </div>
           <!-- Min Price Field -->
-          <div class="col-md-6">
+          <div class="col-md-3">
             <label for="minPrice" class="form-label lead">Min Price</label>
             <input type="number" id="minPrice" name="minPrice" step="0.01" min="0" class="form-control" placeholder="Min Price" value="<%= queryData.filter.minPrice >= 0 ? queryData.filter.minPrice : '' %>"/>
           </div>
           <!-- Max Price Field -->
-          <div class="col-md-6">
+          <div class="col-md-3">
             <label for="maxPrice" class="form-label lead">Max Price</label>
             <input type="number" id="maxPrice" name="maxPrice" step="0.01" min="0" class="form-control" placeholder="Max Price" value="<%= queryData.filter.maxPrice >= 0 ? queryData.filter.maxPrice : '' %>"/>
           </div>
+          <hr class="mt-4">
           <!-- Category Checkboxes Field-->
           <div class="col-md-12">
             <label class="form-label lead">Category</label>
-            <div class="row p-2">
+            <div class="row">
               <% categories.forEach(category => { %>
                 <div class="col-md-2 form-check-inline">
                   <input class="form-check-input" type="checkbox" id="category_<%= category %>" value="" <%= queryData.filter.category.split(',').includes(category) ? 'checked' : '' %>>
@@ -48,79 +56,52 @@
               <% }); %>
             </div>
           </div>
-          <!-- Submit Button -->
-          <div class="d-flex justify-content-center">
-            <label class="form-label">&nbsp;</label>
-            <button type="submit" class="btn btn-outline-light">Search</button>
-          </div>
         </div>
-      </form>
-    </div>
+      </div>
+    </form>
   </div>
   <!--Form Filter End-->
 
   <!-- List Begin -->
   <div class="container">
-    <div class="row">
-      <% products.forEach(product => { %>
-      <div class="col-lg-6 border-end pb-4">
-        <div class="d-flex align-items-center me-1">
-          <a href="/products/<%= product.id %>">
-            <img class="flex-shrink-0 img-fluid rounded" src="/img/food/menu-<%= product.id % 8 + 1 %>.jpg" alt="" style="width: 120px;">
-          </a>
-          <div class="w-100 d-flex flex-column text-start ps-2">
-            <h5 class="d-flex justify-content-between border-bottom nunito-custom fw-bold">
-                <span><a href="/products/<%= product.id %>"><%= product.name %></a></span>
-                <span class="text-primary">$<%= product.price %></span>
-            </h5>
-            <div class="row g-3">
-              <small class="col-10 playwrite-gb-s-custom"><%= product.description %></small>
-              <button class="btn btn-primary col-2 pb-1 pt-0" onclick="addToCart()">
-                <img src="/img/add_to_cart.png" width="20" height="20" />
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <% }); %>
-      <!-- Pagination Display -->
-      <div class="col-lg-12">
-        <nav aria-label="Products results">
-          <ul class="pagination justify-content-center">
-            <li class="page-item <%= queryData.pagination.currentPage == 1 ? 'disabled' : '' %>">
-              <a class="page-link" href="/products?page=<%= queryData.pagination.currentPage - 1 %>">
-                <span>Previous</span>
-              </a>
-            </li>
-            <% for (let i = 1; i <= queryData.pagination.totalPages; i++) { %>
-              <!-- Always show the first and last page -->
-              <% if (i == 1 || i == queryData.pagination.totalPages) { %>
-                <li class="page-item <%= i == queryData.pagination.currentPage ? 'disabled' : '' %>">
-                  <a class="page-link" href="/products?page=<%= i %><%=filterQueryString%>"><%= i %></a>
-                </li>
-              <!-- Only show the current page and its two neighbors-->
-              <% } else if (i == queryData.pagination.currentPage - 1 || i == queryData.pagination.currentPage + 1) { %>
-                <li class="page-item">
-                  <a class="page-link" href="/products?page=<%= i %><%=filterQueryString%>"><%= i %></a>
-                </li>
-              <% } else if (i == queryData.pagination.currentPage) { %>
-                <li class="page-item disabled">
-                  <a class="page-link" href="/products?page=<%= i %><%=filterQueryString%>"><%= i %></a>
-                </li>
-              <% } else if ((i == 2 && queryData.pagination.currentPage > 3) || (i == queryData.pagination.totalPages - 1 && queryData.pagination.currentPage < queryData.pagination.totalPages - 2)) { %>
-                <li class="page-item">
-                <a class="page-link" href="/products?page=<%= i %><%=filterQueryString%>">...</a>
-                </li>
-              <% } %>
+    <%- include('food_list.ejs', {products:products}) %>
+    <!-- Pagination Display -->
+    <div class="col-lg-12 mt-4">
+      <nav aria-label="Products results">
+        <ul class="pagination justify-content-center">
+          <li class="page-item <%= queryData.pagination.currentPage == 1 ? 'disabled' : '' %>">
+            <a class="page-link" href="/products?page=<%= queryData.pagination.currentPage - 1 %>">
+              <span>Previous</span>
+            </a>
+          </li>
+          <% for (let i = 1; i <= queryData.pagination.totalPages; i++) { %>
+            <!-- Always show the first and last page -->
+            <% if (i == 1 || i == queryData.pagination.totalPages) { %>
+              <li class="page-item <%= i == queryData.pagination.currentPage ? 'disabled' : '' %>">
+                <a class="page-link" href="/products?page=<%= i %><%=filterQueryString%>"><%= i %></a>
+              </li>
+            <!-- Only show the current page and its two neighbors-->
+            <% } else if (i == queryData.pagination.currentPage - 1 || i == queryData.pagination.currentPage + 1) { %>
+              <li class="page-item">
+                <a class="page-link" href="/products?page=<%= i %><%=filterQueryString%>"><%= i %></a>
+              </li>
+            <% } else if (i == queryData.pagination.currentPage) { %>
+              <li class="page-item disabled">
+                <a class="page-link" href="/products?page=<%= i %><%=filterQueryString%>"><%= i %></a>
+              </li>
+            <% } else if ((i == 2 && queryData.pagination.currentPage > 3) || (i == queryData.pagination.totalPages - 1 && queryData.pagination.currentPage < queryData.pagination.totalPages - 2)) { %>
+              <li class="page-item disabled">
+              <a class="page-link" href="/products?page=<%= i %><%=filterQueryString%>">...</a>
+              </li>
             <% } %>
-            <li class="page-item <%= queryData.pagination.currentPage == queryData.pagination.totalPages ? 'disabled' : '' %>">
-              <a class="page-link" href="/products?page=<%= queryData.pagination.currentPage + 1 %><%=filterQueryString%>">
-                <span>Next</span>
-              </a>
-            </li>
-          </ul>
-        </nav>
-      </div>
+          <% } %>
+          <li class="page-item <%= queryData.pagination.currentPage == queryData.pagination.totalPages ? 'disabled' : '' %>">
+            <a class="page-link" href="/products?page=<%= queryData.pagination.currentPage + 1 %><%=filterQueryString%>">
+              <span>Next</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
     </div>
   </div>
   <!-- List End -->

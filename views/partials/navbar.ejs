@@ -13,13 +13,25 @@
             <a href="/about" class="nav-item nav-link">About</a>
             <a href="/service" class="nav-item nav-link">Service</a>
             <a href="/products" class="nav-item nav-link">Menu</a>
-            <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">Sign In</a>
-                <div class="dropdown-menu m-0">
-                    <a href="/users/signin" class="dropdown-item active">Sign In</a>
-                    <a href="/users/signup" class="dropdown-item">Sign Up</a>
+            <% if (typeof user !== 'undefined' && user) { %>
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                        <%= user.name %>
+                    </a>
+                    <div class="dropdown-menu m-0">
+                        <a href="/users/profile" class="dropdown-item">Profile</a>
+                        <a href="/users/logout" class="dropdown-item">Logout</a>
+                    </div>
                 </div>
-            </div>
+            <% } else { %>
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Sign In</a>
+                    <div class="dropdown-menu m-0">
+                        <a href="/users/signin" class="dropdown-item">Sign In</a>
+                        <a href="/users/signup" class="dropdown-item">Sign Up</a>
+                    </div>
+                </div>
+            <% } %>
             <div class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">More</a>
                 <div class="dropdown-menu m-0">

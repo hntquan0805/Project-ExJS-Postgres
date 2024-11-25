@@ -13,11 +13,9 @@ const bookingRoutes = require('./routes/bookingRoutes');
 const expressLayouts = require('express-ejs-layouts');
 const passport = require('passport');
 const session = require('express-session');
+const flash = require('connect-flash');
 
 const app = express();
-
-// Passport Config
-require('./config/passport')(passport);
 
 // Express session
 app.use(
@@ -28,9 +26,24 @@ app.use(
   })
 );
 
+// Passport Config
+require('./config/passport')(passport);
+
 // Passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
+
+
+// After session middleware
+app.use(flash());
+
+// Global variables
+app.use((req, res, next) => {
+  res.locals.user = req.user;
+  res.locals.error = req.flash('error');
+  res.locals.success = req.flash('success');
+  next();
+});
 
 app.set(expressLayouts);
 app.set('layout', './layouts/page_layout'); // Default layout
