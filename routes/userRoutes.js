@@ -38,8 +38,14 @@ router.post('/signin', (req, res, next) => {
       failureRedirect: '/users/signin',
       failureFlash: true
     })(req, res, next);
-  });
+});
   
-
+router.get('/profile', (req, res) => {
+  res.render('users/profile', { 
+    title: 'Your Profile', 
+    user: req.user || { name: 'Guest', email: 'Not logged in' }
+  });
+});
+  
 module.exports = router;
 

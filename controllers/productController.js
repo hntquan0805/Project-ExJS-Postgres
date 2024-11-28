@@ -53,10 +53,10 @@ exports.getProduct = async (req, res) => {
   queryData.filter.excludeId = product.id;
 
   const recommendations = (await productService.getProductsByQuery(queryData)).rows;
-  res.render('products/show', { 
-      title: product.name, 
-      product: product, 
-      layout : 'layouts/layout', 
+  res.render('products/show', {
+      title: product.name,
+      product: product,
+      layout : 'layouts/layout',
       recommendations : recommendations
   });
 }
