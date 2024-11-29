@@ -68,6 +68,16 @@ exports.registerUser = async (req, res) => {
   }
 }
 
+// module.exports = {
+//   ensureAuthenticated: (req, res, next) => {
+//     if (req.isAuthenticated()) {
+//       return next();
+//     }
+//     req.flash('error', 'Please log in to view this resource');
+//     res.redirect('/users/signin');
+//   },
+// };
+
   // console.log(req.body);
   // try {
   //   const { name, email, password, confirmPassword } = req.body;

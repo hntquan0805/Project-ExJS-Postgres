@@ -1,6 +1,6 @@
 <style>
     /* Header section */
-    .profile-header {
+    .profile-header, .error-message {
       background: url('https://via.placeholder.com/1200x400') no-repeat center center/cover;
       color: white;
       padding: 60px 0;
@@ -137,7 +137,14 @@
       color: white;
     }
   </style>
-  
+
+<% if (!user) { %>
+  <div class="error-message">
+    <h1><%= title || 'Access Denied' %></h1>
+    <h3><%= error || 'You must log in to view this page.' %></h3>
+    <a href="/users/signin" class="btn btn-primary">Log In</a>
+  </div>
+<% } else { %>
 <!-- Header -->
 <div class="profile-header">
     <h1>Welcome, <%= user.name %>!</h1>
@@ -193,3 +200,4 @@
       <p>No orders found. <a href="/menu" class="text-primary">Order now</a>!</p>
     <% } %>
   </div>
+<% } %>

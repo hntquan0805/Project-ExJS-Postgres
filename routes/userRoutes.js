@@ -27,7 +27,7 @@ router.get('/logout', (req, res) => {
           return next(err);
         }
         res.redirect('/users/signin');
-      });   
+      });
   });
 
 router.post('/signup', userController.registerUser)
@@ -39,13 +39,22 @@ router.post('/signin', (req, res, next) => {
       failureFlash: true
     })(req, res, next);
 });
-  
+
 router.get('/profile', (req, res) => {
-  res.render('users/profile', { 
-    title: 'Your Profile', 
-    user: req.user || { name: 'Guest', email: 'Not logged in' }
+  if (!req.isAuthenticated()) {
+    return res.render('users/profile', {
+      title: 'Access Denied',
+      error: 'You must log in to view this page.',
+      user: null,
+    });
+  }
+
+  res.render('users/profile', {
+    title: 'Your Profile',
+    user: req.user || { name: 'Guest', email: 'Not logged in' },
+    error: null,
   });
 });
-  
+
 module.exports = router;
 
