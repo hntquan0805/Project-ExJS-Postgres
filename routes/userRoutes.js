@@ -32,12 +32,29 @@ router.get('/logout', (req, res) => {
 
 router.post('/signup', userController.registerUser)
 
-router.post('/signin', (req, res, next) => {
-    passport.authenticate('local', {
-      successRedirect: '/',
-      failureRedirect: '/users/signin',
-      failureFlash: true
-    })(req, res, next);
+// router.post('/signin', (req, res, next) => {
+//     passport.authenticate('local', {
+//       successRedirect: '/',
+//       failureRedirect: '/users/signin',
+//       failureFlash: true
+//     })(req, res, next);
+// });
+
+router.post('/signin', async (req, res, next) => {
+  passport.authenticate('local', (err, user, info) => {
+      if (err) {
+          return res.status(500).json({ message: 'Internal server error' });
+      }
+      if (!user) {
+          return res.status(401).json({ message: info.message });
+      }
+      req.logIn(user, (err) => {
+          if (err) {
+              return res.status(500).json({ message: 'Internal server error' });
+          }
+          return res.status(200).json({ success: true });
+      });
+  })(req, res, next);
 });
 
 router.get('/profile', (req, res) => {
