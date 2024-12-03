@@ -2,6 +2,8 @@ const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcryptjs');
 const { User } = require('../models'); // Adjust the path to your User model
 
+const MESSAGE_REFUSE = 'Email or password was incorrect'; 
+
 module.exports = function(passport) {
   passport.use(
     new LocalStrategy({ usernameField: 'email' }, (email, password, done) => {
@@ -9,7 +11,7 @@ module.exports = function(passport) {
       User.findOne({ where: { email: email } })
         .then(user => {
           if (!user) {
-            return done(null, false, { message: 'Email or password was incorrect' });
+            return done(null, false, { message: MESSAGE_REFUSE });
           }
 
           // Match password
@@ -18,7 +20,7 @@ module.exports = function(passport) {
             if (isMatch) {
               return done(null, user);
             } else {
-              return done(null, false, { message: 'Email or password was incorrect' });
+              return done(null, false, { message: MESSAGE_REFUSE });
             }
           });
         })
