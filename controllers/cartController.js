@@ -6,15 +6,11 @@ exports.getCart = async (req, res) => {
         return res.render('users/unauthenticated', { title: 'Unauthenticated' });
     }
 
-    //Add dummy product to cart
-    // for (let i = 0; i < 5; i++) {
-    //     await cartService.addProductToCart(req.user.id, i, Math.floor(Math.random() * 10));
-    // }
-
     const cart = await cartService.getCart(req.user.id);
+    const totalPrice = await cartService.totalPrice(req.user.id);
     
     console.log(JSON.stringify(cart, null, 2));
-    res.render('products/cart', { title: 'Cart', cart : cart });
+    res.render('products/cart', { title: 'Cart', cart : cart, totalPrice : totalPrice});
 }
 
 exports.increaseQuantity = async (req, res) => {
@@ -40,10 +36,12 @@ exports.removeFromCart = async (req, res) => {
     console.log(req.body);
     const { productId } = req.body;
     try {
+        console.log(`Removing product ${productId} from cart on behalf of user ${req.user.id}`);
         await cartService.removeFromCart(req.user.id, productId);
         const totalPrice = await cartService.totalPrice(req.user.id);
+        console.log(`Total: ${totalPrice}`);
         if (totalPrice < 0){
-            res.status(500).json("Error removing item from cart");
+            return res.status(500).json("Error removing item from cart");
         }
         const roundedTotalPrice = Math.round(totalPrice * 100) / 100;
         res.status(200).json({ totalPrice : roundedTotalPrice });

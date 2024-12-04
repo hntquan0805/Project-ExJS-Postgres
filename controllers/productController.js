@@ -1,5 +1,6 @@
 const productService = require('../services/productService');
 const querystring = require('querystring');
+const cartService = require('../services/cartService');
 
 exports.getProducts = async (req, res) => {
   const queryData = {
@@ -58,4 +59,23 @@ exports.getProduct = async (req, res) => {
       layout : 'layouts/layout',
       recommendations : recommendations
   });
+}
+
+exports.addToCart = async (req, res) => {
+    if (!req.isAuthenticated()){
+        return res.status(401).json('Please sign in to add products to cart');
+    }
+
+    const productId = parseInt(req.params.id);
+    if (isNaN(productId)){
+        return res.status(400).json('Invalid product id');
+    }
+
+    try {
+        await cartService.addProductToCart(req.user.id, productId, 1);
+        return res.status(200).json('Product added to cart');
+    } catch (err) {
+        console.error('Error adding product to cart:', err);
+        res.status(500).send('Internal Server Error');
+    }
 }

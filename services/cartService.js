@@ -22,17 +22,30 @@ exports.addProductToCart = async (userId, productId, quantity) => {
     const newCart = await Cart.create({ userId: user.id });
     console.log('New cart created:', newCart);
   }
-  // Add the product to the cart, aka. create a cart item
   const prod = await product.findByPk(productId);
   if (!prod) {
     console.log('Product not found');
     return;
   }
-  const cartItem = await CartItem.create({
-    cartId: cart.id,
-    productId: prod.id,
-    quantity: quantity,
+  // Check if the product is already in the cart
+  // If it is, increase the quantity
+  // If it isn't, create a new cart item
+  let cartItem = await CartItem.findOne({
+    where: {
+      cartId: cart.id,
+      productId: prod.id,
+    },
   });
+  if (cartItem) {
+    cartItem.quantity += 1;
+    await cartItem.save();
+  } else {
+    cartItem = await CartItem.create({
+      cartId: cart.id,
+      productId: prod.id,
+      quantity: quantity,
+    });
+  }
   console.log('Cart item created:', cartItem);
 }
 
@@ -40,30 +53,31 @@ exports.addProductToCart = async (userId, productId, quantity) => {
 exports.getCart = async (userId) => {
   try {
     const result = await sequelize.query(`
-        SELECT 
-          u.id AS "userId", 
-          u.name AS "userName", 
-          c.id AS "cartId", 
-          json_agg(
-            json_build_object(
-              'id', ci.id, 
-              'productId', ci."productId", 
-              'quantity', ci.quantity,
-              'product', json_build_object(
-                'id', p.id,
-                'name', p.name,
-                'price', p.price,
-                'description', p.description
-              )
+      SELECT 
+        u.id AS "userId", 
+        u.name AS "userName", 
+        c.id AS "cartId", 
+        json_agg(
+          json_build_object(
+            'id', ci.id, 
+            'productId', ci."productId", 
+            'quantity', ci.quantity,
+            'product', json_build_object(
+              'id', p.id,
+              'name', p.name,
+              'price', p.price,
+              'description', p.description
             )
-          ) AS "cartItems"
-        FROM users u
-        LEFT JOIN carts c ON u.id = c."userId"
-        LEFT JOIN cart_items ci ON c.id = ci."cartId"
-        LEFT JOIN products p ON ci."productId" = p.id
-        WHERE u.id = :userId
-        GROUP BY u.id, c.id
-      `, {
+          )
+        ) AS "cartItems"
+      FROM users u
+      LEFT JOIN carts c ON u.id = c."userId"
+      LEFT JOIN cart_items ci ON c.id = ci."cartId"
+      LEFT JOIN products p ON ci."productId" = p.id
+      WHERE u.id = :userId
+      GROUP BY u.id, c.id
+      HAVING COUNT(ci.id) > 0
+    `, {
       replacements: { userId },
       type: sequelize.QueryTypes.SELECT,
     });
@@ -98,7 +112,6 @@ exports.removeFromCart = async (userId, productId) => {
       console.log('Product not found in cart');
       return;
     }
-
     await cartItem.destroy();
     console.log('Product removed from cart:', cartItem);
   } catch (error) {
@@ -171,7 +184,8 @@ exports.totalPrice = async (userId) => {
   const cart = await this.getCart(userId);
   if (!cart) {
     console.log('Cart not found');
-    return -1;
+    // Hotfix: cart won't return anything if it's empty
+    return 0;
   }
   let sum = 0;
   cart.cartItems.forEach((item) => {

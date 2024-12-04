@@ -333,7 +333,22 @@ const productData = [
     document.body.classList.remove("no-scroll");
   }
 
-  function addToCart() {
-    alert("Product has been added to the cart!");
-    closeDescription();
+//   function addToCart() {
+//     alert("Product has been added to the cart!");
+//     closeDescription();
+//   }
+
+  async function addToCart(productId){
+    const response = await fetch(`/products/addToCart/${productId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+    if (response.ok) {
+        alert("Product has been added to the cart!");
+    } else {
+        const err = await response.json();
+        alert(err);
+    }
   }
