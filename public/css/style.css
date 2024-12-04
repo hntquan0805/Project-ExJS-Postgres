@@ -641,11 +641,13 @@ transition: background-color 0.2s ease-in-out;
 /* Add to style.css */
 .btn-outline-primary svg path {
     stroke: #fea116 !important;
+    fill: #fea116 !important;
 }
 
 
 .btn-outline-primary:hover svg path {
     stroke: black !important;
+    fill: black !important;
 }
 
 .btn-outline-secondary svg path {
@@ -660,7 +662,7 @@ transition: background-color 0.2s ease-in-out;
 
 /* Header section */
 .profile-header, .error-message {
-    background: url('https://via.placeholder.com/1200x400') no-repeat center center/cover;
+    /* background: url('https://via.placeholder.com/1200x400') no-repeat center center/cover; */
     color: white;
     padding: 60px 0;
     text-align: center;
@@ -794,4 +796,110 @@ transition: background-color 0.2s ease-in-out;
 .badge.bg-primary {
     background-color: #2196f3;
     color: white;
+}
+
+/* Cart Related Buttons */
+.btn-increase {
+    background-color: #ffffff;
+    color: white;
+    border: 2px solid #fea116;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    width: 42px;
+    height: 52px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Adjust transition */
+}
+
+.btn-increase svg path{
+    fill: #fea116;
+    stroke: #fea116;
+}
+
+.btn-increase:hover svg path{
+    fill: white;
+    stroke: white;
+}
+
+.btn-increase:hover {
+    background-color: #fea116;
+}
+
+.btn-decrease {
+    background-color: #ffffff;
+    color: white;
+    border: 2px solid #fea116;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    width: 42px;
+    height: 52px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Adjust transition */
+}
+
+.btn-decrease svg path{
+    fill: #fea116;
+    stroke: #fea116;
+}
+
+.btn-decrease:hover svg path{
+    fill: white;
+    stroke: white;
+}
+
+.btn-decrease:hover {
+    background-color: #fea116;
+}
+
+.btn-remove {
+    background-color: #ffffff;
+    color: white;
+    border: 2px solid #d32f2f;
+    border-radius: 8px;
+    width: 52px;
+    height: 52px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    cursor: pointer;
+    fill: #d32f2f;
+    stroke: #d32f2f;
+    transition: background-color 0.3s ease; /* Adjust transition */
+}
+
+.btn-remove svg path{
+    fill: #d32f2f;
+    stroke: #d32f2f;
+}
+
+.btn-remove:hover svg path{
+    fill: white;
+    stroke: white;
+}
+
+.btn-remove:hover {
+    background-color: #d32f2f;
+}
+
+.text-quantity {
+    width: 42px;
+    height: 52px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    border: 2px solid #a8a8a8;
+    border-left: 0px;
+    border-right: 0px;
+    font-size: x-large;
+    color: #474747;
 }

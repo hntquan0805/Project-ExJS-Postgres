@@ -36,11 +36,7 @@ router.post('/signin', userController.authenticateUser);
 
 router.get('/profile', (req, res) => {
   if (!req.isAuthenticated()) {
-    return res.render('users/profile', {
-      title: 'Access Denied',
-      error: 'You must log in to view this page.',
-      user: null,
-    });
+    return res.render('users/unauthenticated', {title: "Unauthenticated"});
   }
 
   res.render('users/profile', {

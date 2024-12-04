@@ -1,150 +1,74 @@
-import db from '../models/index';
+const cartService = require('../services/cartService');
 
-// exports.getCart = async (req, res) => {
-//   try {
-//         const cart = await db.Cart.findOne({
-//         include: { model: db.Product },
-//         });
+exports.getCart = async (req, res) => {
+    // Check for authenticated user
+    if (!req.isAuthenticated()) {
+        return res.render('users/unauthenticated', { title: 'Unauthenticated' });
+    }
 
-//         res.render('cart', { cart: cart || { Products: [] } });
-//     } catch (err) {
-//         console.error('Error fetching cart:', err);
-//     }
-// };
+    //Add dummy product to cart
+    // for (let i = 0; i < 5; i++) {
+    //     await cartService.addProductToCart(req.user.id, i, Math.floor(Math.random() * 10));
+    // }
 
-// exports.addToCart = async (req, res) => {
-//   const { productId } = req.body;
-
-//   try {
-//     let cart = await db.Cart.findOne();
-//     if (!cart) {
-//       cart = await db.Cart.create();
-//     }
-
-//     const product = await db.Product.findByPk(productId);
-//     if (!product) {
-//       return res.status(404).send('Product not found');
-//     }
-
-//     const cartItem = await db.CartItem.findOne({
-//       where: {
-//         id: product.id,
-//         cartId: cart.id,
-//       },
-//     });
-
-//     if (cartItem) {
-//       cartItem.quantity += 1;
-//       await cartItem.save();
-//     } else {
-//       await db.CartItem.create({
-//         id: productId,
-//         quantity: 1,
-//         cartId: cart.id,
-//         createdAt: new Date(),
-//         updatedAt: new Date(),
-//       });
-//     }
-
-//     res.redirect('/cart');
-//   } catch (err) {
-//     console.error('Error adding product to cart:', err);
-//     res.status(500).send('Internal Server Error');
-//   }
-// };
+    const cart = await cartService.getCart(req.user.id);
+    
+    console.log(JSON.stringify(cart, null, 2));
+    res.render('products/cart', { title: 'Cart', cart : cart });
+}
 
 exports.increaseQuantity = async (req, res) => {
-  const { productId } = req.body;
-
-  try {
-        const cart = await db.Cart.findOne();
-
-        if (!cart) {
-        return res.status(404).send('Cart not found');
+    const { productId } = req.body;
+    try {
+        const newQuantity = await cartService.increaseQuantity(req.user.id, productId);
+        if (newQuantity < 0){
+            return res.status(500).json('Error descreasing quantity');
         }
-
-        const cartItem = await db.CartItem.findOne({
-        where: {
-            cartId: cart.id,
-            id: productId,
-        },
-        });
-
-        if (!cartItem) {
-        return res.status(404).send('Product not found in cart');
+        const totalPrice = await cartService.totalPrice(req.user.id);
+        if (totalPrice <0 ){
+            return res.status(500).json('Error re-calculating total price');
         }
-
-        cartItem.quantity += 1;
-        await cartItem.save();
-
-        res.redirect('/cart');
+        const roundedTotalPrice = Math.round(totalPrice * 100) / 100;
+        res.status(200).json({quantity: newQuantity,  totalPrice : roundedTotalPrice });
     } catch (err) {
         console.error('Error increasing quantity:', err);
         res.status(500).send('Internal Server Error');
     }
 };
-
+  
 exports.removeFromCart = async (req, res) => {
-  const { productId } = req.body;
-
-  try {
-        const cart = await db.Cart.findOne();
-
-        if (!cart) {
-        return res.status(404).send('Cart not found');
+    console.log(req.body);
+    const { productId } = req.body;
+    try {
+        await cartService.removeFromCart(req.user.id, productId);
+        const totalPrice = await cartService.totalPrice(req.user.id);
+        if (totalPrice < 0){
+            res.status(500).json("Error removing item from cart");
         }
-
-        const cartItem = await db.CartItem.findOne({
-        where: {
-            cartId: cart.id,
-            id: productId,
-        },
-        });
-
-        if (!cartItem) {
-        return res.status(404).send('Product not found in cart');
-        }
-
-        await cartItem.destroy();
-
-        res.redirect('/cart');
-    } catch (err) {
+        const roundedTotalPrice = Math.round(totalPrice * 100) / 100;
+        res.status(200).json({ totalPrice : roundedTotalPrice });
+    }
+    catch (err) {
         console.error('Error removing product from cart:', err);
-        res.status(500).send('Internal Server Error');
+        res.status(500).json('Internal Server Error');
     }
 };
-
+  
 exports.decreaseQuantity = async (req, res) => {
-  const { productId } = req.body;
-
-  try {
-        const cart = await db.Cart.findOne();
-
-        if (!cart) {
-        return res.status(404).send('Cart not found');
+    const { productId } = req.body;
+    try {
+        const newQuantity=  await cartService.decreaseQuantity(req.user.id, productId);
+        if (newQuantity < 0){
+            return res.status(500).json('Error descreasing quantity');
         }
-
-        const cartItem = await db.CartItem.findOne({
-        where: {
-            cartId: cart.id,
-            id: productId,
-        },
-        });
-
-        if (!cartItem) {
-        return res.status(404).send('Product not found in cart');
+        const totalPrice = await cartService.totalPrice(req.user.id);
+        if (totalPrice < 0 ){
+            return res.status(500).json('Error re-calculating total price');
         }
-
-        if (cartItem.quantity > 1) {
-        cartItem.quantity -= 1;
-        await cartItem.save();
-        } else {
-        await cartItem.destroy();
-        }
-
-        res.redirect('/cart');
+        const roundedTotalPrice = Math.round(totalPrice * 100) / 100;
+        res.status(200).json({quantity: newQuantity,  totalPrice : roundedTotalPrice });
     } catch (err) {
         console.error('Error decreasing quantity:', err);
-        res.status(500).send('Internal Server Error');
+        return res.status(500).json('Internal Server Error');
     }
 };

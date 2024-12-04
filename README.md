@@ -5,10 +5,10 @@ How to run:
 
 ```
 psql -U postgres
-CREATE USER new_01 WITH PASSWORD 'new_01';
-CREATE DATABASE data_01;
-\c data_01 postgres
-GRANT ALL ON SCHEMA public TO new_01;
+CREATE USER new01 WITH PASSWORD 'pass01';
+CREATE DATABASE data01;
+\c data01 postgres
+GRANT ALL ON SCHEMA public TO new01;
 ```
 (Note that the username, password and database name should match the development ones in the config.json file)  
 

@@ -1,5 +1,6 @@
 const userService = require('../services/userService');
 const passport = require('passport');
+const bcrypt = require('bcryptjs');
 
 exports.authenticateUser = async (req, res, next) => {
   passport.authenticate('local', (err, user, info) => {
@@ -68,7 +69,12 @@ exports.registerUser = async (req, res) => {
       return res.status(400).json(err);
     }
 
-    const newUser = await userService.createUser({name: formDataObject.name, email: formDataObject.email, passport: formDataObject.password})
+     // Hash the password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(formDataObject.password, salt);
+
+    const userData = {name: formDataObject.name, email: formDataObject.email, hashedPassword: hashedPassword}
+    await userService.createUser(userData);
 
     // Send the success page as a response
     // Won't work, can't render on a fetch request

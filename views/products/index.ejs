@@ -49,10 +49,12 @@
             <label class="form-label lead">Category</label>
             <div class="row">
               <% categories.forEach(category => { %>
-                <div class="col-md-2 form-check-inline">
-                  <input class="form-check-input" type="checkbox" id="category_<%= category %>" value="" <%= queryData.filter.category.split(',').includes(category) ? 'checked' : '' %>>
-                  <label for="category_<%= category %>" class="form-check-label ps-1"><%= category.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') %></label>
-                </div>
+                <% if (category) {%>
+                  <div class="col-md-2 form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="category_<%= category %>" value="" <%= queryData.filter.category.split(',').includes(category) ? 'checked' : '' %>>
+                    <label for="category_<%= category %>" class="form-check-label ps-1"><%= category.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') %></label>
+                  </div>
+                <% } %>
               <% }); %>
             </div>
           </div>

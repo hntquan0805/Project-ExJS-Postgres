@@ -28,7 +28,6 @@ exports.getProducts = async (req, res) => {
   queryData.pagination.totalPages = Math.ceil(resultProducts.count / queryData.pagination.pageSize);
   const products = resultProducts.rows;
   const filterQueryString = querystring.stringify(queryData.filter);
-  
   const categories = await productService.getCategories();
   res.render('products/index', { title: 'Products', products : products, queryData: queryData, filterQueryString : filterQueryString, categories : categories});
 }

@@ -1,63 +1,56 @@
-<% if (!user) { %>
-  <div class="error-message">
-    <h1><%= title || 'Access Denied' %></h1>
-    <h3><%= error || 'You must log in to view this page.' %></h3>
-    <a href="/users/signin" class="btn btn-primary">Log In</a>
-  </div>
-<% } else { %>
+
 <!-- Header -->
 <div class="profile-header">
-    <h1>Welcome, <%= user.name %>!</h1>
-    <h3>Explore your personalized Virgo dashboard.</h3>
-  </div>
+  <h1>Welcome, <%= user.name %>!</h1>
+  <h3>Explore your personalized Virgo dashboard.</h3>
+</div>
   
-  <!-- Profile Card -->
-  <div class="profile-card">
-    <img src="<%= user.avatar || 'img/team-1.jpg' %>" alt="Avatar" class="profile-avatar">
-    <div class="profile-info">
-      <h2><%= user.name %></h2>
-      <p><strong>Email:</strong> <%= user.email %></p>
-      <p><strong>Phone:</strong> <%= user.phone || 'Not provided' %></p>
-      <p><strong>Address:</strong> <%= user.address || 'Not provided' %></p>
-      <p><strong>Joined:</strong> <%= new Date(user.createdAt).toLocaleDateString() %></p>
-      <div class="profile-actions">
-        <a href="/users/edit" class="btn btn-custom">Edit Profile</a>
-        <a href="/users/change-password" class="btn btn-custom">Change Password</a>
-        <a href="/users/logout" class="btn btn-danger">Logout</a>
-      </div>
+<!-- Profile Card -->
+<div class="profile-card">
+  <img src="<%= user.avatar || 'img/team-1.jpg' %>" alt="Avatar" class="profile-avatar">
+  <div class="profile-info">
+    <h2><%= user.name %></h2>
+    <p><strong>Email:</strong> <%= user.email %></p>
+    <p><strong>Phone:</strong> <%= user.phone || 'Not provided' %></p>
+    <p><strong>Address:</strong> <%= user.address || 'Not provided' %></p>
+    <p><strong>Joined:</strong> <%= new Date(user.createdAt).toLocaleDateString() %></p>
+    <div class="profile-actions">
+      <a href="/users/edit" class="btn btn-custom">Edit Profile</a>
+      <a href="/users/change-password" class="btn btn-custom">Change Password</a>
+      <a href="/users/logout" class="btn btn-danger">Logout</a>
     </div>
   </div>
-  
-  <!-- Activity Section -->
-  <div class="container history">
-    <h5>Booking History</h5>
-    <% if (user.bookings && user.bookings.length > 0) { %>
-      <ul class="list-group">
-        <% user.bookings.forEach(booking => { %>
-          <li class="list-group-item">
-            <span>Table #<%= booking.tableNumber %> - <%= new Date(booking.date).toLocaleDateString() %></span>
-            <span class="badge bg-<%= booking.status === 'Completed' ? 'success' : 'warning' %>">
-              <%= booking.status %>
-            </span>
-          </li>
-        <% }); %>
-      </ul>
-    <% } else { %>
-      <p>No bookings found. <a href="/booking" class="text-primary">Book now</a>!</p>
-    <% } %>
-  
-    <h5 class="mt-4">Order History</h5>
-    <% if (user.orders && user.orders.length > 0) { %>
-      <ul class="list-group">
-        <% user.orders.forEach(order => { %>
-          <li class="list-group-item">
-            <span>Order #<%= order.id %> - <%= new Date(order.date).toLocaleDateString() %></span>
-            <span class="badge bg-primary">$<%= order.total.toFixed(2) %></span>
-          </li>
-        <% }); %>
-      </ul>
-    <% } else { %>
-      <p>No orders found. <a href="/menu" class="text-primary">Order now</a>!</p>
-    <% } %>
-  </div>
-<% } %>
+</div>
+
+<!-- Activity Section -->
+<div class="container history">
+  <h5>Booking History</h5>
+  <% if (user.bookings && user.bookings.length > 0) { %>
+    <ul class="list-group">
+      <% user.bookings.forEach(booking => { %>
+        <li class="list-group-item">
+          <span>Table #<%= booking.tableNumber %> - <%= new Date(booking.date).toLocaleDateString() %></span>
+          <span class="badge bg-<%= booking.status === 'Completed' ? 'success' : 'warning' %>">
+            <%= booking.status %>
+          </span>
+        </li>
+      <% }); %>
+    </ul>
+  <% } else { %>
+    <p>No bookings found. <a href="/booking" class="text-primary">Book now</a>!</p>
+  <% } %>
+
+  <h5 class="mt-4">Order History</h5>
+  <% if (user.orders && user.orders.length > 0) { %>
+    <ul class="list-group">
+      <% user.orders.forEach(order => { %>
+        <li class="list-group-item">
+          <span>Order #<%= order.id %> - <%= new Date(order.date).toLocaleDateString() %></span>
+          <span class="badge bg-primary">$<%= order.total.toFixed(2) %></span>
+        </li>
+      <% }); %>
+    </ul>
+  <% } else { %>
+    <p>No orders found. <a href="/menu" class="text-primary">Order now</a>!</p>
+  <% } %>
+</div>

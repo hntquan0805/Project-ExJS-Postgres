@@ -1,19 +1,19 @@
 const { User } = require('../models');
 const { Op, Sequelize } = require('sequelize');
-const bcrypt = require('bcryptjs')
+
+exports.findUserById = async (id) => {
+    return await User.findByPk(id);
+}
 
 exports.findUserByEmail = async (email) => {
     return await User.findOne({ where: { email: email } });
 }
 
 exports.createUser = async (userData) => {
-    if (userData.name && userData.email && userData.password){
-        // Hash the password
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(formDataObject.password, salt);
-
-        // Create the new user with the hashed password
-        const userObject = { name: formDataObject.name, email: formDataObject.email, password: hashedPassword };
+    if (userData.name && userData.email && userData.hashedPassword){
+        const userObject = { name: userData.name, email: userData.email, password: userData.hashedPassword };
         return await User.create(userObject);
+    } else {
+        console.log(`One of the field is missing, received data was: ${userData}`);
     }
 }
