@@ -49,6 +49,21 @@ exports.addProductToCart = async (userId, productId, quantity) => {
   console.log('Cart item created:', cartItem);
 }
 
+exports.countAll = async (userId) => {
+  const cart = await this.findCartByUserId(userId);
+  if (!cart) {
+    console.log('Cart not found');
+    return 0;
+  }
+  const cartItems = await CartItem.findAll({
+    where: { cartId: cart.id },
+  });
+  let total = 0;
+  cartItems.forEach((item) => {
+    total += item.quantity;
+  });
+  return total;
+}
 
 exports.getCart = async (userId) => {
   try {

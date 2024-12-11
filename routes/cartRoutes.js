@@ -10,5 +10,7 @@ router.get("/", cartController.getCart);
 router.post("/increase", cartController.increaseQuantity);
 router.post("/decrease", cartController.decreaseQuantity);
 router.post("/remove", cartController.removeFromCart);
+router.post("/add", cartController.addToCart);
+router.post("/countAll", cartController.countAll);
 
 module.exports = router;

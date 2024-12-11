@@ -7,6 +7,6 @@ router.use(expressLayouts);
 router.get('/', productController.getProducts);
 
 router.get('/:id', productController.getProduct);
-router.post('/addToCart/:id', productController.addToCart);
+router.post('/', productController.getProductsAjax);
 
 module.exports = router;

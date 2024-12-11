@@ -67,3 +67,40 @@ exports.decreaseQuantity = async (req, res) => {
         return res.status(500).json('Internal Server Error');
     }
 };
+
+exports.countAll = async (req, res) => {
+    if (!req.isAuthenticated()){
+        return res.status(401).json('Please sign in to add products to cart');
+    }
+
+    try {
+        const result = {
+            count : await cartService.countAll(req.user.id),
+        }
+        return res.status(200).json(result);
+    } catch (err) {
+        console.error('Error counting products in cart:', err);
+        res.status(500).send('Internal Server Error');
+    }
+};
+
+exports.addToCart = async (req, res) => {
+    if (!req.isAuthenticated()){
+        return res.status(401).json('Please sign in to add products to cart');
+    }
+
+    const productId = parseInt(req.body.productId);
+
+    try {
+        await cartService.addProductToCart(req.user.id, productId, 1);
+        const result = {
+            count : await cartService.countAll(req.user.id),
+        }
+        return res.status(200).json(result);
+    } catch (err) {
+        console.error('Error adding product to cart:', err);
+        res.status(500).send('Internal Server Error');
+    }
+}
+
+

@@ -333,22 +333,59 @@ const productData = [
     document.body.classList.remove("no-scroll");
   }
 
-//   function addToCart() {
-//     alert("Product has been added to the cart!");
-//     closeDescription();
-//   }
-
   async function addToCart(productId){
-    const response = await fetch(`/products/addToCart/${productId}`, {
+    const response = await fetch(`/cart/add`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
-        }
+        },
+        body: JSON.stringify({productId: productId}),
     });
     if (response.ok) {
-        alert("Product has been added to the cart!");
+        const result = await response.json();
+        if (typeof result.count != 'undefined' && result.count != null){
+            updateCartProductCount(result.count);
+        }
     } else {
         const err = await response.json();
         alert(err);
     }
   }
+
+  async function updateCartProductCount(newCount){
+    const cartProductCount = document.getElementById("cartProductCount");
+    if (cartProductCount == null){
+        return;
+    }
+    cartProductCount.innerHTML = newCount;
+    if (newCount == 0){
+        cartProductCount.style.display = 'none';
+    } else {
+        cartProductCount.style.display = 'block';
+    }
+  }
+
+  async function fetchCartProductCount(){
+    console.log("Alo");
+    const cartProductCount = document.getElementById("cartProductCount");
+    if (cartProductCount == null){
+        console.log("Cart product count element not found");
+        return;
+    }
+    const response = await fetch(`/cart/countAll`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    });
+    if (response.ok) {
+        const result = await response.json();
+        if (typeof result.count != 'undefined' && result.count != null){
+            updateCartProductCount(result.count);
+        }
+    } else {
+        const err = await response.json();
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', fetchCartProductCount());
