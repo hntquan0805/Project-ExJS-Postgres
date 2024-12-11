@@ -191,5 +191,6 @@ exports.totalPrice = async (userId) => {
   cart.cartItems.forEach((item) => {
     sum += item.quantity * item.product.price;
   });
+  sum = Math.round(sum * 100) / 100;
   return sum;
 }

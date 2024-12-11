@@ -33,16 +33,6 @@ module.exports = {
         allowNull: false,
         defaultValue: 1,
       },
-      createdAt: {
-        type: Sequelize.DATE,
-        allowNull: false,
-        defaultValue: Sequelize.fn('now'),
-      },
-      updatedAt: {
-        type: Sequelize.DATE,
-        allowNull: false,
-        defaultValue: Sequelize.fn('now'),
-      },
     }, {
       tableName: 'cart_items',
       timestamps: false,

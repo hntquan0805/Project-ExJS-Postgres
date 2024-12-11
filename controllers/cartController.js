@@ -24,8 +24,7 @@ exports.increaseQuantity = async (req, res) => {
         if (totalPrice <0 ){
             return res.status(500).json('Error re-calculating total price');
         }
-        const roundedTotalPrice = Math.round(totalPrice * 100) / 100;
-        res.status(200).json({quantity: newQuantity,  totalPrice : roundedTotalPrice });
+        res.status(200).json({quantity: newQuantity,  totalPrice : totalPrice });
     } catch (err) {
         console.error('Error increasing quantity:', err);
         res.status(500).send('Internal Server Error');
@@ -43,8 +42,7 @@ exports.removeFromCart = async (req, res) => {
         if (totalPrice < 0){
             return res.status(500).json("Error removing item from cart");
         }
-        const roundedTotalPrice = Math.round(totalPrice * 100) / 100;
-        res.status(200).json({ totalPrice : roundedTotalPrice });
+        res.status(200).json({ totalPrice : totalPrice });
     }
     catch (err) {
         console.error('Error removing product from cart:', err);
@@ -63,8 +61,7 @@ exports.decreaseQuantity = async (req, res) => {
         if (totalPrice < 0 ){
             return res.status(500).json('Error re-calculating total price');
         }
-        const roundedTotalPrice = Math.round(totalPrice * 100) / 100;
-        res.status(200).json({quantity: newQuantity,  totalPrice : roundedTotalPrice });
+        res.status(200).json({quantity: newQuantity,  totalPrice : totalPrice });
     } catch (err) {
         console.error('Error decreasing quantity:', err);
         return res.status(500).json('Internal Server Error');

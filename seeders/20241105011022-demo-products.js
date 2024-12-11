@@ -451,6 +451,147 @@ module.exports = {
       description: 'Italian coffee dessert',
       category: ['dessert']
       }
+      ,
+      {
+        id: '65',
+        name: 'Bagel',
+        price: 2.99,
+        description: 'Chewy and dense bagel',
+        category: ['breakfast', 'snack', 'vegetarian']
+      },
+      {
+        id: '66',
+        name: 'Muffin',
+        price: 3.49,
+        description: 'Soft and moist muffin',
+        category: ['breakfast', 'snack', 'vegetarian']
+      },
+      {
+        id: '67',
+        name: 'Quiche',
+        price: 5.99,
+        description: 'Savory egg and cheese quiche',
+        category: ['breakfast', 'lunch', 'vegetarian']
+      },
+      {
+        id: '68',
+        name: 'Croissant',
+        price: 2.99,
+        description: 'Flaky and buttery croissant',
+        category: ['breakfast', 'snack', 'vegetarian']
+      },
+      {
+        id: '69',
+        name: 'Baguette',
+        price: 3.99,
+        description: 'Crispy French baguette',
+        category: ['snack', 'side_dish', 'vegetarian']
+      },
+      {
+        id: '70',
+        name: 'Macarons',
+        price: 4.99,
+        description: 'Colorful and delicate macarons',
+        category: ['dessert', 'snack', 'vegetarian']
+      },
+      {
+        id: '71',
+        name: 'Brownie',
+        price: 3.99,
+        description: 'Rich and fudgy brownie',
+        category: ['dessert', 'snack', 'vegetarian']
+      },
+      {
+        id: '72',
+        name: 'Cupcake',
+        price: 2.99,
+        description: 'Sweet and decorative cupcake',
+        category: ['dessert', 'snack', 'vegetarian']
+      },
+      {
+        id: '73',
+        name: 'Donut',
+        price: 1.99,
+        description: 'Sweet and fluffy donut',
+        category: ['breakfast', 'snack', 'vegetarian']
+      },
+      {
+        id: '74',
+        name: 'Pretzel',
+        price: 2.49,
+        description: 'Soft and salty pretzel',
+        category: ['snack', 'vegetarian']
+      },
+      {
+        id: '75',
+        name: 'Granola Bar',
+        price: 1.99,
+        description: 'Crunchy and nutritious granola bar',
+        category: ['snack', 'vegetarian', 'gluten_free']
+      },
+      {
+        id: '76',
+        name: 'Fruit Salad',
+        price: 4.99,
+        description: 'Fresh and colorful fruit salad',
+        category: ['snack', 'vegetarian', 'vegan', 'gluten_free', 'dairy_free']
+      },
+      {
+        id: '77',
+        name: 'Yogurt Parfait',
+        price: 3.99,
+        description: 'Layered yogurt with granola and fruit',
+        category: ['breakfast', 'snack', 'vegetarian']
+      },
+      {
+        id: '78',
+        name: 'Oatmeal',
+        price: 2.99,
+        description: 'Warm and hearty oatmeal',
+        category: ['breakfast', 'vegetarian', 'gluten_free']
+      },
+      {
+        id: '79',
+        name: 'Smoothie',
+        price: 4.99,
+        description: 'Blended fruit smoothie',
+        category: ['breakfast', 'snack', 'vegetarian', 'vegan', 'gluten_free', 'dairy_free']
+      },
+      {
+        id: '80',
+        name: 'Trail Mix',
+        price: 3.49,
+        description: 'Nut and dried fruit mix',
+        category: ['snack', 'vegetarian', 'vegan', 'gluten_free', 'dairy_free']
+      },
+      {
+        id: '81',
+        name: 'Popcorn',
+        price: 1.99,
+        description: 'Light and airy popcorn',
+        category: ['snack', 'vegetarian', 'vegan', 'gluten_free', 'dairy_free']
+      },
+      {
+        id: '82',
+        name: 'Energy Bar',
+        price: 2.99,
+        description: 'High-protein energy bar',
+        category: ['snack', 'vegetarian', 'gluten_free']
+      },
+      {
+        id: '83',
+        name: 'Veggie Chips',
+        price: 2.99,
+        description: 'Crispy vegetable chips',
+        category: ['snack', 'vegetarian', 'vegan', 'gluten_free', 'dairy_free']
+      },
+      {
+        id: '84',
+        name: 'Protein Shake',
+        price: 3.99,
+        description: 'Nutrient-rich protein shake',
+        category: ['breakfast', 'snack', 'vegetarian', 'gluten_free']
+      }
     ], {});
   },
 

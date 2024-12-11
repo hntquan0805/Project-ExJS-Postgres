@@ -641,23 +641,23 @@ transition: background-color 0.2s ease-in-out;
 /* Add to style.css */
 .btn-outline-primary svg path {
     stroke: #fea116 !important;
-    fill: #fea116 !important;
+    /* fill: #fea116 !important; */
 }
 
 
 .btn-outline-primary:hover svg path {
     stroke: black !important;
-    fill: black !important;
+    /* fill: black !important; */
 }
 
 .btn-outline-secondary svg path {
-    fill: black !important;
     stroke: black !important;
+    /* fill: black !important; */
 }
 
 .btn-outline-secondary:hover svg path {
-    fill: white !important;
     stroke: white !important;
+    /* fill: white !important; */
 }
 
 /* Header section */
@@ -805,6 +805,8 @@ transition: background-color 0.2s ease-in-out;
     border: 2px solid #fea116;
     border-top-right-radius: 8px;
     border-bottom-right-radius: 8px;
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
     width: 42px;
     height: 52px;
     display: flex;
@@ -835,6 +837,8 @@ transition: background-color 0.2s ease-in-out;
     border: 2px solid #fea116;
     border-top-left-radius: 8px;
     border-bottom-left-radius: 8px;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
     width: 42px;
     height: 52px;
     display: flex;
@@ -897,8 +901,8 @@ transition: background-color 0.2s ease-in-out;
     justify-content: center;
     align-items: center;
     font-size: 1.2rem;
-    border: 2px solid #a8a8a8;
-    border-left: 0px;
+    /* border: 2px solid #a8a8a8; */
+    /* border-left: 0px; */
     border-right: 0px;
     font-size: x-large;
     color: #474747;
