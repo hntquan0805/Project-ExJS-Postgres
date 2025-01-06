@@ -366,7 +366,6 @@ const productData = [
   }
 
   async function fetchCartProductCount(){
-    console.log("Alo");
     const cartProductCount = document.getElementById("cartProductCount");
     if (cartProductCount == null){
         console.log("Cart product count element not found");
