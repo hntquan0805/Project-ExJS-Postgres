@@ -8,9 +8,10 @@
   },
   "production": {
     "username": "database_xt86_user",
-    "password": "rDbpcoaSlTLsBvBQdHNBpYYfdoQWEeAJ",
+    "password": " ",
     "database": "database_xt86",
     "host": "dpg-ctccvfaj1k6c73feca5g-a.singapore-postgres.render.com",
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "port": 5432
   }
 }   

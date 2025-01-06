@@ -69,7 +69,7 @@
       <hr />
       <!-- Checkout Button -->
       <div class="text-end mt-3">
-        <a href="/checkout" class="btn btn-primary">Checkout</a>
+        <a href="javascript:void(0);" class="btn btn-primary" onclick="handleCheckout()">Checkout</a>
       </div>
     </div>
   </div>
@@ -182,5 +182,31 @@
   function updateTotalPrice(sum) {
     const totalPrice = document.getElementById('totalPrice');
     totalPrice.innerText = `\$${sum}`;
+  }
+
+  async function handleCheckout() {
+    // Placeholder function for checkout process
+    console.log('Checkout button clicked');
+
+    // Example: Send a POST request to the checkout endpoint
+    const response = await fetch('/order/checkout', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        // Include any necessary data here
+      })
+    })
+    if (response.ok) {
+      const data = await response.json();
+      console.log(JSON.stringify(data, null, 2));
+      // Redirect to the order confirmation page
+      window.location.href = '/order/checkout-success';
+    } else {
+      const err = await response.json();
+      console.error(JSON.stringify(err, null, 2));
+    }
+
   }
 </script>

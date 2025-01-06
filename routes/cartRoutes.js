@@ -6,7 +6,12 @@ const router = express.Router();
 
 router.use(expressLayouts);
 
-router.get("/", cartController.getCart);
+router.get("/", (req, res) => {
+  if (!req.isAuthenticated()) {
+    return res.render('users/unauthenticated', {title: "Unauthenticated"});
+  }
+  cartController.getCart(req, res);
+});
 router.post("/increase", cartController.increaseQuantity);
 router.post("/decrease", cartController.decreaseQuantity);
 router.post("/remove", cartController.removeFromCart);

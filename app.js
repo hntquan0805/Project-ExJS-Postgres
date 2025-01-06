@@ -11,6 +11,7 @@ const contactRoutes = require('./routes/contactRoutes');
 const serviceRoutes = require('./routes/serviceRoutes');
 const bookingRoutes = require('./routes/bookingRoutes');
 const cartRoutes = require('./routes/cartRoutes');
+const orderRoutes = require('./routes/orderRoutes');
 const expressLayouts = require('express-ejs-layouts');
 const passport = require('passport');
 const session = require('express-session');
@@ -65,6 +66,7 @@ app.use('/contact', contactRoutes);
 app.use('/service', serviceRoutes);
 app.use('/booking', bookingRoutes);
 app.use('/cart', cartRoutes);
+app.use('/order', orderRoutes);
 app.use(express.static('public'));
 
 app.get("/", indexRoutes);
