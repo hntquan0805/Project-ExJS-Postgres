@@ -21,7 +21,7 @@
         <% cart.cartItems.forEach(item=> { %>
         <div class="d-flex align-items-center m-4" id="product_<%= item.product.id %>">
           <a href="/products/<%= item.product.id %>">
-            <img class="flex-shrink-0 img-fluid rounded" src="/img/food/menu-<%= item.product.id % 8 + 1 %>.jpg" alt="" style="width: 100px;">
+            <img class="flex-shrink-0 img-fluid rounded rounded-3" src="/img/food/menu-<%= item.product.id % 8 + 1 %>.jpg" alt="" style="width: 100px;">
           </a>
           <div class="w-100 d-flex flex-column text-start ps-2">
             <h5 class="d-flex justify-content-between border-bottom nunito-custom fw-bold">
@@ -31,11 +31,11 @@
               <span class="text-primary">$<%= item.product.price %></span>
             </h5>
             <div class="row g-3">
-              <small class="col-6 fst-italic">
+              <small class="col-md-6 col-12 fst-italic">
                 <%= item.product.description %>
               </small>
               <!-- Buttons -->
-              <div class="col-6 d-flex justify-content-end align-items-center">
+              <div class="col-md-6 col-12 d-flex justify-content-end align-items-center">
                 <!-- Remove Item -->
                 <button class="btn-remove me-2" onclick="removeFromCart('<%= item.product.id %>')">
                   <%- include('../partials/icons/remove_icon') %>

@@ -8,10 +8,16 @@
   },
   "production": {
     "username": "database_xt86_user",
-    "password": " ",
+    "password": "rDbpcoaSlTLsBvBQdHNBpYYfdoQWEeAJ",
     "database": "database_xt86",
     "host": "dpg-ctccvfaj1k6c73feca5g-a.singapore-postgres.render.com",
     "dialect": "postgres",
-    "port": 5432
+    "port": 5432,
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      }
+    }
   }
 }   

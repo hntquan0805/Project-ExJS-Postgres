@@ -1,3 +1,4 @@
+// models/user.js
 'use strict';
 
 module.exports = (sequelize, DataTypes) => {
@@ -31,12 +32,19 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: true,
         len: [6, 100],
       }
+    },
+    role: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: 'customer', // Default role is 'customer'
+      validate: {
+        isIn: [['customer', 'admin']], // Only allow 'customer' or 'admin'
+      }
     }
   }, {
     tableName: 'users',
     timestamps: true,
   });
-  
 
   User.associate = (models) => {
     User.hasOne(models.Cart, { foreignKey: 'userId' });
