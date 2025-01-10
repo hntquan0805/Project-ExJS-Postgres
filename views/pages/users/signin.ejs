@@ -79,9 +79,14 @@
                     generalError.textContent = data.message || 'Authentication failed';
                     generalError.style.display = 'block';
                 }
-            } else {
-                // Successful login
-                window.location.href = '/';
+            } else if (data.user){
+                const user = data.user;
+                console.log("User info: ", JSON.stringify(user, null, 2));
+                if (user && user.role === 'admin') {
+                    window.location.href = '/admin';
+                } else {
+                    window.location.href = '/';
+                }
             }
         } catch (error) {
             const generalError = document.getElementById('generalError');

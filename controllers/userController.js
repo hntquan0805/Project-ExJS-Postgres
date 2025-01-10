@@ -14,7 +14,7 @@ exports.authenticateUser = async (req, res, next) => {
           if (err) {
               return res.status(500).json({ message: 'Internal server error' });
           }
-          return res.status(200).json({ success: true });
+          return res.status(200).json({ success: true, user: user });
       });
   })(req, res, next);
 }

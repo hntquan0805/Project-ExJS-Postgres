@@ -8,14 +8,14 @@ router.use(expressLayouts);
 
 router.get("/", (req, res) => {
   if (!req.isAuthenticated()) {
-    return res.render('users/unauthenticated', {title: "Please login to book a service"});
+    return res.render('pages/users/unauthenticated', {title: "Please login to book a service"});
   }
   res.render("pages/booking", {title : "Booking"});
 });
 
 router.post("/", (req, res) => {
   if (!req.isAuthenticated()) {
-    return res.render('users/unauthenticated', {title: "Unauthenticated"});
+    return res.render('pages/users/unauthenticated', {title: "Unauthenticated"});
   };
   return bookingController.createBooking(req, res);
 });

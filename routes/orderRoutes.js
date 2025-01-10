@@ -9,16 +9,16 @@ router.use(expressLayouts);
 
 router.post('/checkout', (req, res) => {
   if (!req.isAuthenticated()) {
-    return res.render('users/unauthenticated', {title: "Unauthenticated"});
+    return res.render('pages/users/unauthenticated', {title: "Unauthenticated"});
   }
   orderController.createOrder(req, res);
 });
 
 router.get('/checkout-success', (req, res) => {
   if (!req.isAuthenticated()) {
-    return res.render('users/unauthenticated', {title: "Unauthenticated"});
+    return res.render('pages/users/unauthenticated', {title: "Unauthenticated"});
   }
-  res.render('products/checkout-success', {title: 'Checkout Success'});
+  res.render('pages/products/checkout-success', {title: 'Checkout Success'});
 });
 
 module.exports = router;

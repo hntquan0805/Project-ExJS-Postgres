@@ -3,14 +3,14 @@ const cartService = require('../services/cartService');
 exports.getCart = async (req, res) => {
     // Check for authenticated user
     if (!req.isAuthenticated()) {
-        return res.render('users/unauthenticated', { title: 'Unauthenticated' });
+        return res.render('pages/users/unauthenticated', { title: 'Unauthenticated' });
     }
 
     const cart = await cartService.getCart(req.user.id);
     const totalPrice = await cartService.totalPrice(req.user.id);
     
     console.log(JSON.stringify(cart, null, 2));
-    res.render('products/cart', { title: 'Cart', cart : cart, totalPrice : totalPrice});
+    res.render('pages/products/cart', { title: 'Cart', cart : cart, totalPrice : totalPrice});
 }
 
 exports.increaseQuantity = async (req, res) => {

@@ -38,11 +38,11 @@
               <div class="col-md-6 col-12 d-flex justify-content-end align-items-center">
                 <!-- Remove Item -->
                 <button class="btn-remove me-2" onclick="removeFromCart('<%= item.product.id %>')">
-                  <%- include('../partials/icons/remove_icon') %>
+                  <%- include('../../partials/icons/remove_icon') %>
                 </button>
                 <!-- Descrease Button -->
                 <button class="btn-decrease" onclick="decreaseQuantity('<%= item.product.id %>')">
-                  <%- include('../partials/icons/decrease_icon') %>
+                  <%- include('../../partials/icons/decrease_icon') %>
                 </button>
                 <!-- Quantity -->
                 <span class="w-25 text-quantity" id="productCount_<%= item.product.id %>">
@@ -50,7 +50,7 @@
                 </span>
                 <!-- Increase Button -->
                 <button class="btn-increase" onclick="increaseQuantity('<%= item.product.id %>')">
-                  <%- include('../partials/icons/increase_icon') %>
+                  <%- include('../../partials/icons/increase_icon') %>
                 </button>
               </div>
             </div>

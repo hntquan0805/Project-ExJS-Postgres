@@ -8,7 +8,7 @@ router.use(expressLayouts);
 
 router.get("/", (req, res) => {
   if (!req.isAuthenticated()) {
-    return res.render('users/unauthenticated', {title: "Unauthenticated"});
+    return res.render('pages/users/unauthenticated', {title: "Unauthenticated"});
   }
   cartController.getCart(req, res);
 });

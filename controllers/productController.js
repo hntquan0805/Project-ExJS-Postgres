@@ -9,7 +9,7 @@ exports.getProducts = async (req, res) => {
     const products = resultProducts.rows;
     const filterQueryString = querystring.stringify(queryData.filter);
     const categories = await productService.getCategories();
-    res.render('products/index', { title: 'Products', products: products, queryData: queryData, filterQueryString: filterQueryString, categories: categories });
+    res.render('pages/products/index', { title: 'Products', products: products, queryData: queryData, filterQueryString: filterQueryString, categories: categories });
 }
 
 exports.formQueryData = (req) => {
@@ -64,7 +64,7 @@ exports.getProduct = async (req, res) => {
     queryData.filter.excludeId = product.id;
 
     const recommendations = (await productService.getProductsByQuery(queryData)).rows;
-    res.render('products/show', {
+    res.render('pages/products/show', {
         title: product.name,
         product: product,
         layout: 'layouts/layout',
