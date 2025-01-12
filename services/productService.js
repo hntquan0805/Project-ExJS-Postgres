@@ -60,6 +60,9 @@ exports.getProductsByQuery = (queryData) => {
                 };
             }
         }
+        // Order by id by default to ensure consistent ordering
+        dbFilter.order = [['id', 'ASC']];
+        // Exclude the current product
         if (filter.excludeId) {
             dbFilter.where.id = { [Op.ne]: filter.excludeId };  // Usually we want to exclude the current product
         }
@@ -75,3 +78,45 @@ exports.getAllProducts = () => {
 exports.getProductById = (id) => {
     return product.findByPk(id); // Use Product (uppercase) here
 };
+
+exports.updateProduct = async (prod) => {
+    try {
+        console.log("Updating: \n" + JSON.stringify(prod, null, 2));
+        // If product.id exists, update food information
+        const existingProduct = await product.findOne({
+            where: {
+                id: prod.id,
+            },
+        })
+        if (existingProduct) {
+            console.log("Found an existing product:\n" + JSON.stringify(existingProduct, null, 2));
+            existingProduct.name = prod.name;
+            existingProduct.description = prod.description;
+            existingProduct.price = prod.price;
+            existingProduct.category = prod.category;
+            existingProduct.status = prod.status;
+
+            await existingProduct.save();
+        } else {
+            await product.create(prod);
+        }
+        return 0;
+    } catch (error) {
+        return -1;
+    }
+}
+
+exports.deleteProduct = async (id) => {
+    try {
+        await product.destroy({
+            where: {
+                id: id,
+            },
+        });
+        return 0;
+    }
+    catch (error) {
+        console.log(error.message || error);
+        return -1;
+    }
+}

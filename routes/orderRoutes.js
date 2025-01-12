@@ -18,7 +18,7 @@ router.get('/checkout-success', (req, res) => {
   if (!req.isAuthenticated()) {
     return res.render('pages/users/unauthenticated', {title: "Unauthenticated"});
   }
-  res.render('pages/products/checkout-success', {title: 'Checkout Success'});
+  res.render('pages/products/checkout_success', {title: 'Checkout Success'});
 });
 
 module.exports = router;
