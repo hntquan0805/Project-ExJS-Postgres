@@ -919,3 +919,38 @@ transition: background-color 0.2s ease-in-out;
     text-align: center;
     padding: 5px 10px;
 }
+
+.category-badge {
+    display: inline-block; /* Ensure badges are treated as block-level elements within inline flow */
+    background-color: transparent;
+    color: #fea116; /* Original background color as text color */
+    border: 2px solid #fea116; /* Border color matching the original background */
+    border-radius: 24px;
+    text-align: center;
+    padding: 5px 10px;
+    font-size: smaller;
+    margin: 5px; /* Add space between badges */
+}
+
+.table-head {
+    color: white;
+    position: sticky;
+    top: 60px;
+    z-index: 1;
+    
+}
+
+.table-head th {
+    background-color: #4a6ca0;
+    color: white;
+    padding: 10px;
+    text-transform: uppercase;
+}
+
+.x-small{
+    font-size: x-small;
+}
+
+.smaller{
+    font-size: smaller;
+}
