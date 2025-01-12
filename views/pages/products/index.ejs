@@ -27,18 +27,34 @@
 
       <div class="collapse card p-4 mb-4" id="filterPanel" style="transition: all 0.3s ease;">
         <div class="row">
+          <!-- Sort Field -->
+          <div class="col-md-2">
+            <label for="sort" class="form-label lead">Sort By</label>
+            <select id="sort" name="sort" class="form-select">
+              <option value="name" <%= queryData.filter.sort === 'name' ? 'selected' : '' %>>Name</option>
+              <option value="price" <%= queryData.filter.sort === 'price' ? 'selected' : '' %>>Price</option>
+              <option value="default" <%= (!queryData.filter.sort || queryData.filter.sort === 'default') ? 'selected' : '' %>>Default</option>
+            </select>
+          </div>
+          <!-- Sort Asc or Desc -->
+          <div class="col-md-2 d-flex align-items-end">
+            <select id="sort-order" name="sort-order" class="form-select">
+              <option value="asc" <%= queryData.filter.sortOrder === 'asc' ? 'selected' : '' %>>A-Z</option>
+              <option value="desc" <%= queryData.filter.sortOrder === 'desc' ? 'selected' : '' %>>Z-A</option>
+            </select>
+          </div>
           <!-- Description Field -->
-          <div class="col-md-6">
+          <div class="col-md-4">
             <label for="descSearch" class="form-label lead">Description</label>
             <input type="text" id="descSearch" name="description" class="form-control" placeholder="Search by description..." value="<%= queryData.filter.description %>" />
           </div>
           <!-- Min Price Field -->
-          <div class="col-md-3">
+          <div class="col-md-2">
             <label for="minPrice" class="form-label lead">Min Price</label>
             <input type="number" id="minPrice" name="minPrice" step="0.01" min="0" class="form-control" placeholder="Min Price" value="<%= queryData.filter.minPrice >= 0 ? queryData.filter.minPrice : '' %>" />
           </div>
           <!-- Max Price Field -->
-          <div class="col-md-3">
+          <div class="col-md-2">
             <label for="maxPrice" class="form-label lead">Max Price</label>
             <input type="number" id="maxPrice" name="maxPrice" step="0.01" min="0" class="form-control" placeholder="Max Price" value="<%= queryData.filter.maxPrice >= 0 ? queryData.filter.maxPrice : '' %>" />
           </div>
@@ -123,7 +139,10 @@
       const maxPrice = document.getElementById('maxPrice').value;
       const categories = document.querySelectorAll('input[type="checkbox"]:checked');
       const categoryValues = Array.from(categories).map(category => category.id.slice("category_".length)); //Remove prefix 'category_' here
-      const filterQueryString = `&name=${name}&description=${description}&minPrice=${minPrice}&maxPrice=${maxPrice}&category=${categoryValues.join(',')}`;
+      const sort = document.getElementById('sort').value;
+      const sortOrder = document.getElementById('sort-order').value;
+
+      const filterQueryString = `&name=${name}&description=${description}&minPrice=${minPrice}&maxPrice=${maxPrice}&category=${categoryValues.join(',')}&sort=${sort}&sortOrder=${sortOrder}`;
       window.location.href = `/products?${filterQueryString}`;
     }
 

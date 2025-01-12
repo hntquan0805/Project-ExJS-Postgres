@@ -60,8 +60,15 @@ exports.getProductsByQuery = (queryData) => {
                 };
             }
         }
-        // Order by id by default to ensure consistent ordering
-        dbFilter.order = [['id', 'ASC']];
+        //dbFilter.order = [['id', 'ASC']];
+        if (filter.sort && filter.sortOrder) {
+            if (filter.sort == 'default') {
+                dbFilter.order = [['id', 'ASC']];
+            } else {
+                dbFilter.order = [[filter.sort, filter.sortOrder.toUpperCase()]];
+            }
+        }
+
         // Exclude the current product
         if (filter.excludeId) {
             dbFilter.where.id = { [Op.ne]: filter.excludeId };  // Usually we want to exclude the current product

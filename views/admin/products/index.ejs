@@ -27,6 +27,22 @@
 
       <div class="collapse card p-4 mb-4" id="filterPanel" style="transition: all 0.3s ease;">
         <div class="row">
+          <!-- Sort Field -->
+          <div class="col-md-2">
+            <label for="sort" class="form-label lead">Sort By</label>
+            <select id="sort" name="sort" class="form-select">
+              <option value="name" <%= queryData.filter.sort === 'name' ? 'selected' : '' %>>Name</option>
+              <option value="price" <%= queryData.filter.sort === 'price' ? 'selected' : '' %>>Price</option>
+              <option value="default" <%= (!queryData.filter.sort || queryData.filter.sort === 'default') ? 'selected' : '' %>>Default</option>
+            </select>
+          </div>
+          <!-- Sort Asc or Desc -->
+          <div class="col-md-2 d-flex align-items-end">
+            <select id="sort-order" name="sort-order" class="form-select">
+              <option value="asc" <%= queryData.filter.sortOrder === 'asc' ? 'selected' : '' %>>A-Z</option>
+              <option value="desc" <%= queryData.filter.sortOrder === 'desc' ? 'selected' : '' %>>Z-A</option>
+            </select>
+          </div>
           <!-- Description Field -->
           <div class="col-md-6">
             <label for="descSearch" class="form-label lead">Description</label>
@@ -131,8 +147,11 @@
       const maxPrice = document.getElementById('maxPrice').value;
       const categories = document.querySelectorAll('input[type="checkbox"]:checked');
       const categoryValues = Array.from(categories).map(category => category.id.slice("category_".length)); //Remove prefix 'category_' here
-      const filterQueryString = `&name=${name}&description=${description}&minPrice=${minPrice}&maxPrice=${maxPrice}&category=${categoryValues.join(',')}`;
-      window.location.href = `/admin/products?${filterQueryString}`;
+      const sort = document.getElementById('sort').value;
+      const sortOrder = document.getElementById('sort-order').value;
+
+      const filterQueryString = `&name=${name}&description=${description}&minPrice=${minPrice}&maxPrice=${maxPrice}&category=${categoryValues.join(',')}&sort=${sort}&sortOrder=${sortOrder}`;
+      window.location.href = `/products?${filterQueryString}`;
     }
 
     function updateURL(toURL) {

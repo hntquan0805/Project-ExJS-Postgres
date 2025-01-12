@@ -13,8 +13,13 @@ exports.getProducts = async (req, res) => {
     let layout = "layouts/layout"; // Default is customer
     let url = "pages/products/index"; // Default is customer
     if (req.isAuthenticated() && req.user.role === "admin") {
-        layout = 'layouts/admin/admin_page_layout';
-        url = 'admin/products/index';
+        if (req.originalUrl === "/products") {
+            layout = "layouts/layout";
+            url = "pages/products/index";
+        } else {
+            layout = 'layouts/admin/admin_page_layout';
+            url = 'admin/products/index';
+        }
     }
     res.render(url, { title: 'Products', layout: layout, products: products, queryData: queryData, filterQueryString: filterQueryString, categories: categories });
 }
@@ -33,7 +38,9 @@ exports.formQueryData = (req) => {
             description: req.query.description ? req.query.description : "",
             name: req.query.name ? req.query.name : "",
             category: req.query.category ? req.query.category : "",
-            category_op: req.query.category_op ? req.query.category_op : "contains"
+            category_op: req.query.category_op ? req.query.category_op : "contains",
+            sort: req.query.sort ? req.query.sort : "default",
+            sortOrder: req.query.sortOrder ? req.query.sortOrder : "asc"
         }
     };
     // Preprocess the query data
