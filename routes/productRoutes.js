@@ -8,5 +8,7 @@ router.get('/', productController.getProducts);
 
 router.get('/:id', productController.getProduct);
 router.post('/', productController.getProductsAjax);
+router.post('/update', productController.updateProduct);
+router.post('/delete/:id', productController.deleteProduct);
 
 module.exports = router;
