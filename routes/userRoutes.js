@@ -46,5 +46,32 @@ router.get('/profile', (req, res) => {
   });
 });
 
+router.post('/update/:id', (req, res) => {
+  if (!req.isAuthenticated()) {
+    return res.render('pages/users/unauthenticated', {title: "Unauthenticated"});
+  };
+
+  userController.updateUserById(req, res);
+});
+
+router.get('/change-password', (req, res) => {
+  if (!req.isAuthenticated()) {
+    return res.render('pages/users/unauthenticated', {title: "Unauthenticated"});
+  }
+
+  res.render('pages/users/change_password', {
+    title: 'Change Password',
+    user: req.user || { name: 'Guest', email: 'Not logged in' },
+    error: null,
+  });
+});
+
+router.post('/change-password/:id', (req, res) => {
+  if (!req.isAuthenticated()) {
+    return res.render('pages/users/unauthenticated', {title: "Unauthenticated"});
+  }
+
+  userController.changePassword(req, res);
+});
 module.exports = router;
 

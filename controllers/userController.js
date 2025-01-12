@@ -115,3 +115,32 @@ exports.updateUserById = async (req, res) => {
     return res.status(500).json({ message: 'Server error' });
   }
 }
+
+exports.changePassword = async (req, res) => {
+  try{
+    const userId = req.params.id;
+    const oldPassword = req.body.oldPassword;
+    const newPassword = req.body.newPassword;
+    if (oldPassword == newPassword){
+      return res.status(500).json({ message: 'New password cannot be the same as the old password' });
+    }
+    const user = await userService.findUserById(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    const isMatch = await bcrypt.compare(oldPassword, user.password);
+    if (!isMatch) {
+      return res.status(401).json({ message: 'Incorrect password' });
+    }
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+    const updatedUser = { password: hashedPassword };
+    if (await userService.updateUserById(userId, updatedUser) < 0){
+      return res.status(500).json({ message: 'Error updating user' });
+    }
+    return res.status(200).json({ message: 'Password updated' });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: 'Server error' });
+  }
+};
