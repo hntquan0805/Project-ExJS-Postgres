@@ -5,7 +5,7 @@
     <h1 class="mb-5">Your Cart</h1>
   </div>
   <!-- List of added items -->
-  <div class="card p-3">
+  <div class="card p-3 shadow-sm">
     <!-- Empty Cart Message (Initially Hidden) -->
     <div id="empty-cart-message" style="display: none">
       <div class="text-center d-flex flex-column align-items-center">
@@ -15,7 +15,7 @@
       </div>
     </div>
     <!-- Items and Check out -->
-    <div id="cart-checkout-section">
+    <form id="cart-checkout-section" onsubmit="handleCheckout()">
       <div id="cart-items-container">
         <% if (typeof cart !='undefined' && cart && cart.cartItems && cart.cartItems.length > 0) { %>
         <% cart.cartItems.forEach(item=> { %>
@@ -60,18 +60,37 @@
         <%}%>
       </div>
       <hr/>
+      
+      <!-- Shipping Details -->
+      <div class="card card-body shadow-sm">
+        <h5>Shipping Details</h5> 
+        <div class="mb-3">
+          <label for="shippingMethod" class="form-label fw-bold">Method</label>
+          <select class="form-select" id="shippingMethod">
+            <option value="standard">Standard Shipping</option>
+            <option value="express">Express Shipping</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="shippingAddress" class="form-label fw-bold">Address</label>
+          <input type="text" class="form-control" id="shippingAddress" placeholder="Enter your shipping address" required>
+        </div>
+        <div class="d-flex justify-content-between">
+          <label class="form-label fw-bold">Fee</label>
+          <h5 class="fw-bold text-primary" id="shippingFee">$5.00</h5>
+        </div>
+      </div>
+      <hr/>
       <!-- Total Price -->
       <div class="d-flex justify-content-between">
         <h5 class="fw-bold">Total</h5>
-        <h5 class="fw-bold text-primary" id="totalPrice">$<%= totalPrice %>
-        </h5>
+        <h5 class="fw-bold text-primary" id="totalPrice">$<%= totalPrice + 5%></h5>
       </div>
-      <hr />
       <!-- Checkout Button -->
       <div class="text-end mt-3">
-        <a href="javascript:void(0);" class="btn btn-primary" onclick="handleCheckout()">Checkout</a>
+        <button type="submit" class="btn btn-primary">Checkout</button>
       </div>
-    </div>
+    </form>
   </div>
 </div>
 </div>
@@ -187,6 +206,11 @@
   async function handleCheckout() {
     // Placeholder function for checkout process
     console.log('Checkout button clicked');
+    const orderDetails = {
+      userId: '<%=user.id%>',
+      shippingMethod: document.getElementById('shippingMethod').value,
+      shippingAddress: document.getElementById('shippingAddress').value
+    };
 
     // Example: Send a POST request to the checkout endpoint
     const response = await fetch('/order/checkout', {
@@ -194,9 +218,7 @@
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({
-        // Include any necessary data here
-      })
+      body: JSON.stringify(orderDetails)
     })
     if (response.ok) {
       const data = await response.json();

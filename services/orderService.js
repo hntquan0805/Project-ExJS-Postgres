@@ -1,7 +1,10 @@
 // services/orderService.js
 const { Cart, CartItem, Order, OrderItem, product } = require('../models');
 
-exports.createOrder = async (userId) => {
+exports.createOrder = async (orderDetails) => {
+  const { userId, shippingMethod, shippingAddress } = orderDetails;
+  console.log(JSON.stringify(orderDetails));
+
   // Retrieve the user's cart and cart items
   const cart = await Cart.findOne({ where: { userId }, include: [CartItem] });
 
@@ -20,7 +23,10 @@ exports.createOrder = async (userId) => {
   const order = await Order.create({
     userId,
     totalAmount,
-    status: 'pending'
+    status: 'pending',
+    shippingMethod: shippingMethod,
+    shippingAddress: shippingAddress
+
   });
 
   // Create order items
@@ -28,7 +34,7 @@ exports.createOrder = async (userId) => {
     orderId: order.id,
     productId: item.productId,
     quantity: item.quantity,
-    price: item.product.price
+    price: item.product.price,
   }));
   await OrderItem.bulkCreate(orderItems);
 

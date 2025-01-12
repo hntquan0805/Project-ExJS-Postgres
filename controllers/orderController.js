@@ -2,10 +2,8 @@
 const orderService = require('../services/orderService');
 
 exports.createOrder = async (req, res) => {
-  const userId = req.user.id; // Assuming user ID is available in req.user
-
   try {
-    const order = await orderService.createOrder(userId);
+    const order = await orderService.createOrder(req.body);
     res.status(200).json({ message: 'Checkout successful', order });
   } catch (error) {
     console.error(error);
