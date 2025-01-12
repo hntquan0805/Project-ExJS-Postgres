@@ -21,8 +21,16 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Cart.associate = (models) => {
-    Cart.belongsTo(models.User, { foreignKey: 'userId' });
-    Cart.hasMany(models.CartItem, { foreignKey: 'cartId' });
+    Cart.belongsTo(models.User, {
+      foreignKey: 'userId',
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE'
+    });
+    Cart.hasMany(models.CartItem, {
+      foreignKey: 'cartId',
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE'
+    });
   };
 
   return Cart;

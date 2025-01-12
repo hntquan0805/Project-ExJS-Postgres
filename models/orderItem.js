@@ -4,8 +4,16 @@ module.exports = (sequelize, DataTypes) => {
   class OrderItem extends Model {
     static associate(models) {
       // Define association here
-      OrderItem.belongsTo(models.Order, { foreignKey: 'orderId' });
-      OrderItem.belongsTo(models.product, { foreignKey: 'productId' });
+      OrderItem.belongsTo(models.Order, {
+        foreignKey: 'orderId',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+      });
+      OrderItem.belongsTo(models.product, {
+        foreignKey: 'productId',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
+      });
     }
   }
   OrderItem.init({
