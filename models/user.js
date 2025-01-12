@@ -40,16 +40,47 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         isIn: [['customer', 'admin']], // Only allow 'customer' or 'admin'
       }
-    }
+    },
+    gender: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: 'male', // Default gender is 'male'
+      validate: {
+        isIn: [['male', 'female']], // Only allow 'male' or 'female'
+      }
+    },
+    phoneNumber: {
+      type: DataTypes.STRING,
+      allowNull: true, // Allow null values
+      validate: {
+        len: [10, 15], // Assuming phone numbers are between 10 and 15 characters
+      }
+    },
+    address: {
+      type: DataTypes.STRING,
+      allowNull: true, // Allow null values
+    },
   }, {
     tableName: 'users',
     timestamps: true,
   });
 
   User.associate = (models) => {
-    User.hasOne(models.Cart, { foreignKey: 'userId' });
-    User.hasMany(models.Order, { foreignKey: 'userId' });
-    User.hasMany(models.Booking, { foreignKey: 'userId' });
+    User.hasOne(models.Cart, {
+      foreignKey: 'userId',
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE'
+    });
+    User.hasMany(models.Order, {
+      foreignKey: 'userId',
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE'
+    });
+    User.hasMany(models.Booking, {
+      foreignKey: 'userId',
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE'
+    });
   };
 
   return User;
