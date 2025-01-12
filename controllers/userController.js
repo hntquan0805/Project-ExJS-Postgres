@@ -84,3 +84,34 @@ exports.registerUser = async (req, res) => {
     return res.status(500).json({ message: 'Server error' });
   }
 }
+
+exports.getUserById = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const user = await userService.findUserById(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    return res.status(200).json(user);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: 'Server error' });
+  }
+}
+
+exports.updateUserById = async (req, res) => {
+  const userId = req.params.id;
+  const updatedUser = req.body;
+  if (updatedUser.id && updatedUser.id !== userId) {
+    return res.status(400).json({ message: 'Bad request' });
+  }
+  try {
+    if (await userService.updateUserById(userId, updatedUser) < 0){
+      return res.status(500).json({ message: 'Error updating user' });
+    }
+    return res.status(200).json({ message: 'User updated' });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: 'Server error' });
+  }
+}
