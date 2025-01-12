@@ -107,6 +107,10 @@
         </ul>
       </nav>
     </div>
+
+    <template id="foodItemTemplate">
+      <%- include('food_item', {product: {id: '{{id}}', name: '{{name}}', price: '{{price}}', description: '{{description}}', category: '{{category}}', status: 'in_stock'}}) %>
+    </template>
   </div>
   <!-- List End -->
 
@@ -141,7 +145,6 @@
         renderProductGrid(data.products);
         renderPagination(data.pagination, queryString);
         updateURL(url);
-        window.scrollTo({top: 800, behavior: 'smooth'});
       } else {
         const err = await response.json();
         alert(err || "Failed to fetch data.");
@@ -161,27 +164,18 @@
       }
 
       products.forEach(product => {
-        const productHtml = `
-            <div class="col-lg-6 border-end pb-4">
-                <div class="d-flex align-items-center me-1">
-                    <a href="/products/${product.id}">
-                        <img class="flex-shrink-0 img-fluid rounded" src="/img/food/menu-${product.id % 8 + 1}.jpg" alt="" style="width: 100px;">
-                    </a>
-                    <div class="w-100 d-flex flex-column text-start ps-2">
-                        <h5 class="d-flex justify-content-between border-bottom nunito-custom fw-bold">
-                            <span><a href="/products/${product.id}">${product.name}</a></span>
-                            <span class="text-primary">$${product.price.toFixed(2)}</span>
-                        </h5>
-                        <div class="row g-3">
-                            <small class="col-10 fst-italic">${product.description}</small>
-                            <button class="btn btn-outline-primary col-2 pb-1 pt-0" onclick="addToCart('${product.id}')">
-                                <i class="bi bi-cart-plus"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>`;
-        gridContainer.insertAdjacentHTML("beforeend", productHtml);
+        const foodItem = document.getElementById("foodItemTemplate").content.cloneNode(true);
+        foodItem.querySelector(".food-item-img").src = `/img/food/menu-${product.id % 8 + 1}.jpg`;
+        foodItem.querySelector(".food-item-link").href = `/products/${product.id}`;
+        foodItem.querySelector(".food-item-link").textContent = product.name;
+        // Only in stock products can be added to cart
+        if (product.status !== 'in_stock') {
+          foodItem.querySelector(".food-item-add-to-cart-btn").remove();
+          foodItem.querySelector(".food-item-out-of-stock").style.display = "block";
+        }
+        foodItem.querySelector(".food-item-price").textContent = `$${product.price}`;
+        foodItem.querySelector(".food-item-description").textContent = product.description;
+        gridContainer.appendChild(foodItem);
       });
     }
 
