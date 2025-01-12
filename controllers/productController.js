@@ -1,6 +1,7 @@
 const productService = require('../services/productService');
 const querystring = require('querystring');
 const cartService = require('../services/cartService');
+const cloudinary = require('cloudinary').v2;
 
 exports.getProducts = async (req, res) => {
     const queryData = this.formQueryData(req);
@@ -91,12 +92,11 @@ exports.getProduct = async (req, res) => {
     });
 }
 
-// Add new or modify a existing product
 exports.updateProduct = async (req, res) => {
     try {
         const product = req.body;
         console.log(JSON.stringify(product, null, 2));
-        if (productService.updateProduct(product) < 0){ // Idk why it won't throw an error to here to catch thou
+        if (productService.updateProduct(product) < 0) {
             res.status(400).json({
                 error: "Bad Request"
             });
@@ -130,3 +130,39 @@ exports.deleteProduct = async (req, res) => {
         })
     }
 }
+
+exports.createProduct = async (req, res) => {
+    try {
+        const product = req.body;
+        if (await productService.createProduct(product) < 0) {
+            res.status(400).json({
+                error: "Bad Request"
+            });
+            return;
+        }
+        res.status(200).json({
+            error: "OK"
+        })
+    } catch (error) {
+        res.status(500).json({
+            error: "Internal Server Error"
+        })
+    }
+}
+
+exports.getSignature = async (req, res) => {
+    try {
+        const timestamp = Math.round(new Date().getTime() / 1000);
+        const signature = cloudinary.utils.api_sign_request(
+            {
+                timestamp: timestamp
+            },
+            cloudinary.config().api_secret
+        );
+        res.status(200).json({ timestamp, signature });
+    } catch (error) {
+        res.status(500).json({
+            error: "Internal Server Error"
+        })
+    }
+};

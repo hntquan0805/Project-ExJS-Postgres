@@ -162,7 +162,11 @@
 
     function renderProductGrid(products) {
       const gridContainer = document.getElementById("productListBody");
-      gridContainer.innerHTML = ""; // Clear previous content
+
+      // Clear all except the first row
+      while (gridContainer.children.length > 1) {
+        gridContainer.removeChild(gridContainer.lastChild);
+      }
 
       if (products.length === 0) {
         gridContainer.innerHTML = `
@@ -270,4 +274,226 @@
       }
     }
   </script>
+
+
+  <script>
+    function toggleEditMode(productId) {
+      const row = document.getElementById('product-row-' + productId);
+      const nameSpan = row.querySelector('.product-name');
+      const nameInput = row.querySelector('.product-name-input');
+      const priceSpan = row.querySelector('.product-price');
+      const priceInput = row.querySelector('.product-price-input');
+      const descriptionSpan = row.querySelector('.product-description');
+      const descriptionTextarea = row.querySelector('.product-description-input');
+      const statusSpan = row.querySelector('.product-status');
+      const statusInput = row.querySelector('.product-status-input');
+      const editButton = row.querySelector('.edit-btn');
+      const saveButton = row.querySelector('.save-btn');
+      const removeButton = row.querySelector('.remove-btn');
+      const cancelEditButton = row.querySelector('.cancel-btn');
+      const categoryRemoveButtons = row.querySelectorAll('.category-remove');
+      const categoryAdd = row.querySelector('.category-add');
+
+      // Toggle visibility of spans and inputs
+      nameSpan.classList.toggle('d-none');
+      nameInput.classList.toggle('d-none');
+
+      priceSpan.classList.toggle('d-none');
+      priceInput.classList.toggle('d-none');
+
+      descriptionSpan.classList.toggle('d-none');
+      descriptionTextarea.classList.toggle('d-none');
+
+      statusSpan.classList.toggle('d-none');
+      statusInput.classList.toggle('d-none');
+
+      // Toggle visibility of edit and save buttons
+      editButton.classList.toggle('d-none');
+      saveButton.classList.toggle('d-none');
+      cancelEditButton.classList.toggle('d-none');
+      removeButton.classList.toggle('d-none');
+
+      // Toggle visibility of category buttons
+      categoryRemoveButtons.forEach(button => {
+        button.classList.toggle('d-none');
+      });
+
+      categoryAdd.classList.toggle('d-none');
+    }
+
+    function editProduct(button) {
+      const row = button.closest('.product-row');
+      const productId = row.id.split('-').pop();
+
+      // Save original data
+      const nameInput = row.querySelector('.product-name-input');
+      const priceInput = row.querySelector('.product-price-input');
+      const descriptionTextarea = row.querySelector('.product-description-input');
+      const statusInput = row.querySelector('.product-status-input');
+
+      // List of categories
+      const categories = [];
+      row.querySelectorAll('.category-badge-link').forEach(category => {
+        categories.push(category.textContent);
+      });
+
+      nameInput.dataset.originalValue = nameInput.value;
+      priceInput.dataset.originalValue = priceInput.value;
+      descriptionTextarea.dataset.originalValue = descriptionTextarea.value;
+      statusInput.dataset.originalValue = statusInput.value;
+      row.dataset.originalCategories = JSON.stringify(categories);
+
+      toggleEditMode(productId);
+    }
+
+    function saveProductChanges(button) {
+      const productId = button.closest('.product-row').id.split('-').pop();
+      const row = document.getElementById('product-row-' + productId);
+      const nameSpan = row.querySelector('.product-name');
+      const priceSpan = row.querySelector('.product-price');
+      const descriptionSpan = row.querySelector('.product-description');
+      const statusSpan = row.querySelector('.product-status');
+      const nameInput = row.querySelector('.product-name-input');
+      const priceInput = row.querySelector('.product-price-input');
+      const descriptionTextarea = row.querySelector('.product-description-input');
+      const statusInput = row.querySelector('.product-status-input');
+
+      // Update the span elements with the input values
+      nameSpan.textContent = nameInput.value;
+      priceSpan.textContent = '$' + priceInput.value;
+      descriptionSpan.textContent = descriptionTextarea.value;
+      statusSpan.textContent = statusInput.options[statusInput.selectedIndex].text;
+
+      // List of categories
+      const categories = [];
+      row.querySelectorAll('.category-badge-link').forEach(category => {
+        categories.push(category.textContent);
+      });
+
+      toggleEditMode(productId);
+
+      // Save it all
+      const productData = {
+        id: productId,
+        name: nameInput.value,
+        price: priceInput.value,
+        description: descriptionTextarea.value,
+        category: categories,
+        status: statusInput.value
+      };
+
+      updateProduct(productData);
+    }
+
+    async function updateProduct(productData) {
+      const response = await fetch(`/admin/products/update`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(productData),
+      });
+
+      if (!response.ok) {
+        console.error(`Error updating product: ${response.err || response}`);
+        return;
+      }
+      console.log('Update product successfully');
+    }
+
+    function removeCategory(button) {
+      const categoryBadge = button.closest('.category-badge');
+      categoryBadge.remove();
+    }
+
+    function addCategory(button) {
+      const row = button.closest('.product-row');
+      const newCategory = row.querySelector('.category-add input').value;
+      // Validation
+      if (newCategory.length === 0) {
+        return;
+      }
+      const template = document.getElementById('category-badge-template');
+      const clone = template.content.cloneNode(true);
+      const categoryBadge = clone.querySelector('.category-badge');
+      const categoryBadgeLink = clone.querySelector('.category-badge-link');
+      const categoryRemoveButton = clone.querySelector('.category-remove');
+      categoryBadgeLink.textContent = newCategory;
+      categoryBadgeLink.href = '/admin/products?category=' + newCategory;
+      categoryRemoveButton.onclick = function() {
+        removeCategory(this);
+      };
+      categoryRemoveButton.classList.remove('d-none');
+      const categoryContainer = row.querySelector('.category-add');
+      categoryContainer.insertAdjacentElement('beforebegin', categoryBadge);
+    }
+
+    function cancelEdit(button) {
+      const row = button.closest('.product-row');
+      const productId = row.id.split('-').pop();
+      const nameInput = row.querySelector('.product-name-input');
+      const priceInput = row.querySelector('.product-price-input');
+      const descriptionTextarea = row.querySelector('.product-description-input');
+      const statusInput = row.querySelector('.product-status-input');
+
+      // Restore original data
+      nameInput.value = nameInput.dataset.originalValue;
+      priceInput.value = priceInput.dataset.originalValue;
+      descriptionTextarea.value = descriptionTextarea.dataset.originalValue;
+      statusInput.value = statusInput.dataset.originalValue;
+
+      // Restore original categories
+      const categories = JSON.parse(row.dataset.originalCategories);
+      const categoryContainer = row.querySelector('.product-categories');
+      categoryContainer.innerHTML = '';
+      categories.forEach(category => {
+        const template = document.getElementById('category-badge-template');
+        const clone = template.content.cloneNode(true);
+        const categoryBadge = clone.querySelector('.category-badge');
+        const categoryBadgeLink = clone.querySelector('.category-badge-link');
+        const categoryRemoveButton = clone.querySelector('.category-remove');
+        categoryBadgeLink.textContent = category;
+        categoryBadgeLink.href = '/admin/products?category=' + category;
+        categoryRemoveButton.onclick = function() {
+          removeCategory(this);
+        };
+        categoryRemoveButton.classList.remove('d-none');
+        categoryContainer.appendChild(categoryBadge);
+      });
+
+      toggleEditMode(productId);
+    }
+
+    async function removeProduct(button) {
+      const row = button.closest('.product-row');
+      const productId = row.id.split('-').pop();
+
+      // Remove the product from the database
+      if (await deleteProduct(productId) < 0) {
+        return;
+      }
+
+      // Self-destruct time
+      row.remove();
+    }
+
+    async function deleteProduct(productId) {
+      try {
+        const response = await fetch(`/admin/products/delete/${productId}`, {
+          method: "POST",
+        });
+
+        if (!response.ok) {
+          console.error(`Error deleting product: ${response.err || response}`);
+          return -1;
+        }
+        console.log('Delete product successfully');
+        return 0;
+      } catch (err) {
+        console.error(`Error deleting product: ${err}`);
+        return -1;
+      }
+    }
+  </script>
+
 </div>

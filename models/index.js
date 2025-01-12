@@ -19,7 +19,8 @@ if (process.env.DATABASE_URL) {
         require: true,
         rejectUnauthorized: false,
       }
-    }
+    },
+
   });
 } else {
   const config = require(__dirname + '/../config/config.json')[env];
@@ -51,3 +52,7 @@ db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
 module.exports = db;
+
+// Sync
+// SELECT pg_get_serial_sequence('products', 'id');
+// SELECT setval('products_id_seq', (SELECT MAX(id) FROM products));
