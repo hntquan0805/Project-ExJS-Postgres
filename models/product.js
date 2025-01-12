@@ -23,16 +23,33 @@ module.exports = (sequelize, DataTypes) => {
     category: {
       type: ARRAY(DataTypes.STRING),
       allowNull: false
+    },
+    status: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: 'in_stock',
+      validate: {
+        isIn: [['in_stock', 'out_of_stock']]
+      }
     }
   }, {
     tableName: 'products',
     timestamps: false
   });
 
+  
   product.associate = (models) => {
-    product.hasMany(models.CartItem, { foreignKey: 'productId' });
-    product.hasMany(models.OrderItem, { foreignKey: 'productId' });
-  };
-
+    product.hasMany(models.CartItem, {
+      foreignKey: 'productId',
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE'
+    });
+    product.hasMany(models.OrderItem, {
+      foreignKey: 'productId',
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE'
+    });
+  }
+  
   return product;
 };

@@ -7,10 +7,10 @@
     "dialect": "postgres"
   },
   "production": {
-    "username": "database_xt86_user",
-    "password": "rDbpcoaSlTLsBvBQdHNBpYYfdoQWEeAJ",
-    "database": "database_xt86",
-    "host": "dpg-ctccvfaj1k6c73feca5g-a.singapore-postgres.render.com",
+    "username": "hntquan0805_iyvk_user",
+    "password": "Ob7uCdYOQH4Z4K8ckUhmFWaXaXqTJ2kW",
+    "database": "hntquan0805_iyvk",
+    "host": "dpg-cu0usul2ng1s73e3l6ug-a.singapore-postgres.render.com",
     "dialect": "postgres",
     "port": 5432,
     "dialectOptions": {
