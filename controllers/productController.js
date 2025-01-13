@@ -60,8 +60,18 @@ exports.getProductsAjax = async (req, res) => {
 }
 
 exports.getProduct = async (req, res) => {
+    console.log("Get product by id: " + req.params.id);
     const product = await productService.getProductById(req.params.id);
-    // Dummy recommendations
+    // Get the first 10 reviews of the product
+    const reviews = (await productService.getProductReviewsById(req.params.id, 1, 10)).rows;
+    // There would be fields like "User.id" and "User.name" -> "userId" and "userIname"
+    reviews.forEach(review => {
+        review.userId = review['User.id'];
+        review.userName = review['User.name'];
+    });
+
+    product.reviews = [];
+
     const maxRecommendations = 10;
 
     const queryData = {
@@ -90,7 +100,6 @@ exports.getProduct = async (req, res) => {
         });
         return
     }
-
     res.render('pages/products/show', {
         title: product.name,
         product: product,
@@ -168,6 +177,54 @@ exports.getSignature = async (req, res) => {
         );
         res.status(200).json({ timestamp, signature });
     } catch (error) {
+        res.status(500).json({
+            error: "Internal Server Error"
+        })
+    }
+};
+
+exports.postProductReview = async (req, res) => {
+    try{
+        const review = req.body;
+        review.productId = req.params.id;
+        review.userId = req.user.id;
+        if (await productService.createProductReview(review) < 0) {
+            res.status(400).json({
+                error: "Bad Request"
+            });
+            return;
+        }
+        res.status(200).json({
+            error: "OK"
+        })
+    } catch (error) {
+        res.status(500).json({
+            error: "Internal Server Error"
+        })
+    }
+}
+
+exports.updateProductReviewHelpfulness = async (req, res) => {
+    try {
+        const {isHelpful} = req.body;
+        const reviewId = req.params.id;
+
+        console.log(JSON.stringify(isHelpful, null, 2));
+        const review = await productService.getProductReviewByReviewId(reviewId);
+        if (isHelpful){
+            review.helpfulCount += 1;
+        }
+        else{
+            review.notHelpfulCount += 1;
+        }
+        console.log(JSON.stringify(review, null, 2));
+        review.save();
+
+        res.status(200).json({
+            error: "OK"
+        })
+    } catch (error) {
+        console.log(error.message || error);
         res.status(500).json({
             error: "Internal Server Error"
         })

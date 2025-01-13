@@ -1,5 +1,6 @@
 const { product } = require('../models');
 const { Op, Sequelize } = require('sequelize');
+const { Review, User } = require('../models');
 
 exports.getCategories = async () => {
     // Category attribute is an array of categories
@@ -78,6 +79,22 @@ exports.getProductsByQuery = (queryData) => {
     return product.findAndCountAll(dbFilter);
 }
 
+exports.getProductReviewsById = async (productId, page = 1, pageSize = 5) => {
+    const reviewsResult = await Review.findAndCountAll({
+        where: { productId },
+        include: [{
+            model: User,
+            attributes: ['id', 'name']
+        }],
+        order: [['createdAt', 'DESC']],
+        offset: (page - 1) * pageSize,
+        limit: pageSize,
+        raw: true,
+    });
+    console.log(reviewsResult);
+    return reviewsResult;
+};
+
 exports.getAllProducts = () => {
     return product.findAll(); // Fetch all products from the database
 };
@@ -126,3 +143,30 @@ exports.createProduct = async (prod) => {
         }
     }
 }
+
+exports.getProductReviewByReviewId = async (reviewId) => {
+    return Review.findByPk(reviewId);
+};
+
+exports.createProductReview = async (review) => {
+    try {
+        review.helpfulCount = 0;
+        review.notHelpfulCount = 0;
+
+        await Review.create(review);
+        return 0;
+    } catch (error) {
+        console.log(error.message || error);
+        return -1;
+    }
+}
+
+exports.updateProductReview = async (review) => {
+    try {
+        await Review.update(review, { where: { id: review.id } });
+        return 0;
+    } catch (error) {
+        console.log(error.message || error);
+        return -1;
+    }
+};

@@ -142,7 +142,7 @@
         z-index: 999;
         background: transparent !important;
     }
-    
+
     .sticky-top.navbar-dark {
         position: fixed;
         background: var(--dark) !important;
@@ -162,13 +162,13 @@
     animation: imgRotate 50s linear infinite;
 }
 
-@keyframes imgRotate { 
-    100% { 
-        transform: rotate(360deg); 
-    } 
+@keyframes imgRotate {
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
-.breadcrumb-item + .breadcrumb-item::before {
+.breadcrumb-item+.breadcrumb-item::before {
     color: rgba(255, 255, 255, .5);
 }
 
@@ -486,7 +486,7 @@
     position: relative;
     display: inline-block;
 }
-  
+
 .description-box {
     position: fixed;
     top: 50%;
@@ -498,49 +498,49 @@
     transition: transform 0.3s ease, opacity 0.3s ease;
     min-width: 30%;
 }
-  
+
 .description-box.show {
     transform: translate(-50%, -50%) scale(1);
     opacity: 1;
     z-index: 1000;
 }
-  
+
 #myImage {
     cursor: pointer;
 }
-  
+
 .product-image {
     max-width: 100%;
     height: auto;
 }
-  
-.playwrite-gb-s-custom{
+
+.playwrite-gb-s-custom {
     font-family: "Playwrite GB S", cursive;
     font-optical-sizing: auto;
     font-weight: 400;
     font-style: normal;
 }
-  
+
 .btn-primary-custom {
     background-color: #4CAF50;
     color: white;
     border: none;
     transition: 0.1s;
 }
-  
+
 .btn-secondary-custom {
     background-color: #f65e0c;
     color: black;
     border: none;
     transition: 0.1s;
 }
-  
+
 .btn-primary-custom:hover {
     background-color: #45a049;
     font-weight: bold;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
 }
-  
+
 .btn-secondary-custom:hover {
     background-color: #f65e0c;
     color: white;
@@ -565,7 +565,8 @@
 }
 
 /* Customize carousel controls */
-.carousel-control-prev-icon, .carousel-control-next-icon {
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
     background-color: #FEAF39;
     border-radius: 50%;
     width: 40px;
@@ -573,7 +574,8 @@
     background-size: 70%;
 }
 
-.carousel-control-prev-icon::after, .carousel-control-next-icon::after {
+.carousel-control-prev-icon::after,
+.carousel-control-next-icon::after {
     font-size: 1.5rem;
 }
 
@@ -624,18 +626,18 @@
     opacity: 0;
     transform: translateY(10px);
     transition: all 0.2s ease-in-out;
-  }
-  
+}
+
 .dropdown:hover .dropdown-menu,
 .dropdown-menu.show {
-visibility: visible;
-opacity: 1;
-transform: translateY(0);
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
 }
 
 /* Optional: Add fade effect to dropdown items */
 .dropdown-item {
-transition: background-color 0.2s ease-in-out;
+    transition: background-color 0.2s ease-in-out;
 }
 
 /* Add to style.css */
@@ -661,7 +663,8 @@ transition: background-color 0.2s ease-in-out;
 }
 
 /* Header section */
-.profile-header, .error-message {
+.profile-header,
+.error-message {
     /* background: url('https://via.placeholder.com/1200x400') no-repeat center center/cover; */
     color: white;
     padding: 60px 0;
@@ -814,15 +817,16 @@ transition: background-color 0.2s ease-in-out;
     align-items: center;
     font-size: 1.2rem;
     cursor: pointer;
-    transition: background-color 0.3s ease; /* Adjust transition */
+    transition: background-color 0.3s ease;
+    /* Adjust transition */
 }
 
-.btn-increase svg path{
+.btn-increase svg path {
     fill: #fea116;
     stroke: #fea116;
 }
 
-.btn-increase:hover svg path{
+.btn-increase:hover svg path {
     fill: white;
     stroke: white;
 }
@@ -846,15 +850,16 @@ transition: background-color 0.2s ease-in-out;
     align-items: center;
     font-size: 1.2rem;
     cursor: pointer;
-    transition: background-color 0.3s ease; /* Adjust transition */
+    transition: background-color 0.3s ease;
+    /* Adjust transition */
 }
 
-.btn-decrease svg path{
+.btn-decrease svg path {
     fill: #fea116;
     stroke: #fea116;
 }
 
-.btn-decrease:hover svg path{
+.btn-decrease:hover svg path {
     fill: white;
     stroke: white;
 }
@@ -877,15 +882,16 @@ transition: background-color 0.2s ease-in-out;
     cursor: pointer;
     fill: #d32f2f;
     stroke: #d32f2f;
-    transition: background-color 0.3s ease; /* Adjust transition */
+    transition: background-color 0.3s ease;
+    /* Adjust transition */
 }
 
-.btn-remove svg path{
+.btn-remove svg path {
     fill: #d32f2f;
     stroke: #d32f2f;
 }
 
-.btn-remove:hover svg path{
+.btn-remove:hover svg path {
     fill: white;
     stroke: white;
 }
@@ -921,15 +927,19 @@ transition: background-color 0.2s ease-in-out;
 }
 
 .category-badge {
-    display: inline-block; /* Ensure badges are treated as block-level elements within inline flow */
+    display: inline-block;
+    /* Ensure badges are treated as block-level elements within inline flow */
     background-color: transparent;
-    color: #fea116; /* Original background color as text color */
-    border: 2px solid #fea116; /* Border color matching the original background */
+    color: #fea116;
+    /* Original background color as text color */
+    border: 2px solid #fea116;
+    /* Border color matching the original background */
     border-radius: 24px;
     text-align: center;
     padding: 5px 10px;
     font-size: smaller;
-    margin: 5px; /* Add space between badges */
+    margin: 5px;
+    /* Add space between badges */
 }
 
 .table-head {
@@ -937,7 +947,7 @@ transition: background-color 0.2s ease-in-out;
     position: sticky;
     top: 60px;
     z-index: 1;
-    
+
 }
 
 .table-head th {
@@ -947,10 +957,35 @@ transition: background-color 0.2s ease-in-out;
     text-transform: uppercase;
 }
 
-.x-small{
+.x-small {
     font-size: x-small;
 }
 
-.smaller{
+.smaller {
     font-size: smaller;
+}
+
+.rating-stars {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+}
+
+.rating-stars input[type="radio"] {
+    display: none;
+}
+
+.rating-stars label {
+    font-size: 1.5rem;
+    color: #ddd;
+    cursor: pointer;
+}
+
+.rating-stars input[type="radio"]:checked~label {
+    color: #f5b301;
+}
+
+.rating-stars label:hover,
+.rating-stars label:hover~label {
+    color: #f5b301;
 }
