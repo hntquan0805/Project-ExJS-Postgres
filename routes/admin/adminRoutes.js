@@ -5,7 +5,7 @@ const adminUserRoutes = require("./adminUserRoutes");
 const adminAccountsRoutes = require("./adminAccountsRoutes");
 
 const router = express.Router();
-
+const analyticsController = require("../../controllers/analyticsController");
 router.use(expressLayouts);
 
 router.use("/products", adminProductRoutes);
@@ -21,5 +21,7 @@ router.get("/", (req, res) => {
   res.render("admin", {title : "Admin", layout : "./layouts/admin/admin_page_layout"});
 });
 
+router.get('/analytics', analyticsController.viewRevenueAnalytics);
+router.get('/revenue-by-product', analyticsController.viewRevenueByProduct);
 
 module.exports = router;
