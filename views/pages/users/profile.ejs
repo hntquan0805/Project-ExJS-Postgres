@@ -44,37 +44,14 @@
   </div>
 </div>
 
-<!-- Activity Section -->
-<div class="container history">
-  <h5>Booking History</h5>
-  <% if (user.bookings && user.bookings.length > 0) { %>
-    <ul class="list-group"></ul>
-      <% user.bookings.forEach(booking => { %>
-        <li class="list-group-item"></li>
-          <span>Table #<%= booking.tableNumber %> - <%= new Date(booking.date).toLocaleDateString() %></span>
-          <span class="badge bg-<%= booking.status === 'Completed' ? 'success' : 'warning' %>">
-            <%= booking.status %>
-          </span>
-        </li>
-      <% }); %>
-    </ul>
-  <% } else { %>
-    <p>No bookings found. <a href="/booking" class="text-primary">Book now</a>!</p>
-  <% } %>
 
+<!-- Order History Section -->
+<div class="container history">
   <h5 class="mt-4">Order History</h5>
-  <% if (user.orders && user.orders.length > 0) { %>
-    <ul class="list-group"></ul>
-      <% user.orders.forEach(order => { %>
-        <li class="list-group-item">
-          <span>Order #<%= order.id %> - <%= new Date(order.date).toLocaleDateString() %></span>
-          <span class="badge bg-primary">$<%= order.total.toFixed(2) %></span>
-        </li>
-      <% }); %>
-    </ul>
-  <% } else { %>
-    <p>No orders found. <a href="/menu" class="text-primary">Order now</a>!</p>
-  <% } %>
+  <a href="/orders/history" class="btn btn-custom">View Your Order History</a>
+</div>
+
+
 </div>
 
 <script>
