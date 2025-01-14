@@ -14,6 +14,8 @@ const cartRoutes = require('./routes/cartRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 
 const adminRoutes = require('./routes/admin/adminRoutes');
+const adminOrdersRouter = require('./routes/admin/adminOrders');
+
 
 const expressLayouts = require('express-ejs-layouts');
 const passport = require('passport');
@@ -70,9 +72,10 @@ app.use('/service', serviceRoutes);
 app.use('/booking', bookingRoutes);
 app.use('/cart', cartRoutes);
 app.use('/order', orderRoutes);
+app.use('/orders', orderRoutes);
 app.use('/admin', adminRoutes);
 app.use(express.static('public'));
-
+app.use('/admin', adminOrdersRouter);
 app.get("/", indexRoutes);
 
 const PORT = process.env.PORT || 10000;

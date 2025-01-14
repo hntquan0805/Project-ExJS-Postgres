@@ -21,4 +21,12 @@ router.get('/checkout-success', (req, res) => {
   res.render('pages/products/checkout_success', {title: 'Checkout Success'});
 });
 
+router.get('/history', (req, res) => {
+  if (!req.isAuthenticated()) {
+    return res.render('pages/users/unauthenticated', { title: 'Unauthenticated' });
+  }
+  orderController.getOrderHistory(req, res);
+});
+
+
 module.exports = router;
