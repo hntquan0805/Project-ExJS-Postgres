@@ -1,5 +1,17 @@
    <div class="container">
     <h2 class="mt-4">Manage Orders</h2>
+
+    <div class="row mb-3">
+      <div class="col-md-4">
+        <label for="status-filter" class="form-label">Filter by Status:</label>
+        <select id="status-filter" class="form-select">
+          <option value="">All</option>
+          <option value="Pending">Pending</option>
+          <option value="Completed">Completed</option>
+        </select>
+      </div>
+    </div>
+    
     <table class="table mt-3">
       <thead class="table-dark">
         <tr>
@@ -48,6 +60,12 @@
   </div>
   
   <script>
+    document.getElementById('status-filter').addEventListener('change', () => {
+    const selectedStatus = document.getElementById('status-filter').value;
+    const queryParam = selectedStatus ? `?status=${selectedStatus}` : '';
+    window.location.href = `/admin/orders${queryParam}`;
+  });
+  
     const enableEdit = (orderId) => {
       document.getElementById(`status-display-${orderId}`).classList.add('d-none');
       document.getElementById(`status-edit-${orderId}`).classList.remove('d-none');
