@@ -5,19 +5,19 @@ const router = express.Router();
 
 router.use(expressLayouts);
 
-router.get("/profile", (req, res) => {
+router.get("/", (req, res) => {
   if (!req.isAuthenticated() || req.user.role !== "admin") {
     return res.redirect("/users/signin");
   }
-  res.render("admin/users/profile", {title : "Admin Profile", layout : "./layouts/admin/admin_page_layout", user : req.user});
+  userController.getUserAccounts(req, res);
 });
 
-
-router.post("/update/:id", (req, res) => {
+router.put("/update/:userId/status", (req, res) => {
   if (!req.isAuthenticated() || req.user.role !== "admin") {
     return res.redirect("/users/signin");
   }
-  userController.updateUserById(req, res);
+  console.log("update account status"); 
+  userController.updateAccountStatus(req, res);
 });
 
 module.exports = router;

@@ -11,7 +11,6 @@ exports.getAdminOrders = async (req, res) => {
     const dbFilter = {};
     if (status) {
       dbFilter.where = {status};
-      console.log("status: ", status, " l : ", status.length);
     }
     dbFilter.order = [['createdAt', 'DESC']];
     dbFilter.limit = limit;

@@ -12,7 +12,7 @@ exports.findUserByEmail = async (email) => {
 
 exports.createUser = async (userData) => {
     if (userData.name && userData.email && userData.hashedPassword) {
-        const userObject = { name: userData.name, email: userData.email, password: userData.hashedPassword };
+        const userObject = { name: userData.name, email: userData.email, password: userData.hashedPassword, status : 'active' };
         return await User.create(userObject);
     } else {
         console.log(`One of the field is missing, received data was: ${userData}`);

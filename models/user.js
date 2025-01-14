@@ -60,6 +60,14 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: true, // Allow null values
     },
+    status: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: 'active', // Default status is 'active'
+      validate: {
+        isIn: [['active', 'inactive']], // Only allow 'active
+      }
+    }
   }, {
     tableName: 'users',
     timestamps: true,
