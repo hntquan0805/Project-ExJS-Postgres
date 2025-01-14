@@ -137,7 +137,6 @@
     <%- include('../../partials/admin/admin_category_badge', {category: '{{category}}'}) %>
   </template>
 
-  <!-- Pagination Display -->
   <script>
     function onSearchSubmits(event) {
       event.preventDefault();
@@ -199,7 +198,7 @@
       products.forEach(product => {
         // Clone the template and populate it with product data
         const productRow = document.getElementById("foodItemTemplate").content.cloneNode(true);
-
+        
         // Fill in product details
         productRow.querySelector("tr").id = `product-row-${product.id}`;
         productRow.querySelector(".product-id").textContent = product.id;

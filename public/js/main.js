@@ -334,6 +334,7 @@ const productData = [
   }
 
   async function addToCart(productId){
+    console.log("Adding product to cart: " + productId);
     const response = await fetch(`/cart/add`, {
         method: 'POST',
         headers: {
