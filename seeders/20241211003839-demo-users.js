@@ -26,7 +26,7 @@ module.exports = {
         email: 'phuc21744@gmail.com',
         password: await hashPass('1234567'),
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
       },
       {
         id: Sequelize.fn('gen_random_uuid'),

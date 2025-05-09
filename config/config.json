@@ -4,13 +4,14 @@
     "password": "pass01",
     "database": "data01",
     "host": "localhost",
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "port": 5432
   },
   "production": {
-    "username": "hntquan0805_iyvk_user",
-    "password": "Ob7uCdYOQH4Z4K8ckUhmFWaXaXqTJ2kW",
-    "database": "hntquan0805_iyvk",
-    "host": "dpg-cu0usul2ng1s73e3l6ug-a.singapore-postgres.render.com",
+    "username": "restaurant-db_owner",
+    "password": "npg_yVBwdGv7lu5g",
+    "database": "restaurant-db",
+    "host": "ep-frosty-haze-a427ux9k-pooler.us-east-1.aws.neon.tech",
     "dialect": "postgres",
     "port": 5432,
     "dialectOptions": {

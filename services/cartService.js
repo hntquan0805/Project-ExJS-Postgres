@@ -17,10 +17,12 @@ exports.addProductToCart = async (userId, productId, quantity) => {
     return;
   }
   // Create a cart for the user if it doesn't exist
-  const cart = await this.findCartByUserId(userId);
-  if (!cart) {
-    const newCart = await Cart.create({ userId: user.id });
+  let cart = await this.findCartByUserId(userId);
+  console.log("cart:: ", cart);
+  if (cart == null) {
+    const newCart = await Cart.create({id: Math.floor(Math.random() * 20000), userId: user.id });
     console.log('New cart created:', newCart);
+    cart = newCart;
   }
   const prod = await product.findByPk(productId);
   if (!prod) {
@@ -36,11 +38,12 @@ exports.addProductToCart = async (userId, productId, quantity) => {
       productId: prod.id,
     },
   });
-  if (cartItem) {
+  if (cartItem != null) {
     cartItem.quantity += 1;
     await cartItem.save();
   } else {
     cartItem = await CartItem.create({
+      id: Math.floor(Math.random() * 20000),
       cartId: cart.id,
       productId: prod.id,
       quantity: quantity,
